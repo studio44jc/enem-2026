@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel ENEM e Ensino Superior</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: vitrine escura com abas fixas; cada aba é uma grade de cartões. Cor = governo (vermelho Lula/Dilma, verde Temer, azul Bolsonaro). */
+:root{--bg:#050507;--card:#0f0f15;--card2:#15151e;--line:#23232f;--fg:#f4f4f8;--mut:#9a9ab0;--red:#ff3b4e;--green:#19e07a;--blue:#2f7bff;--amber:#ffb020;--cy:#2ec4ff;--mag:#ff4d8d;color-scheme:dark;
+--disp:'Unbounded','Arial Black',system-ui,sans-serif;--body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;overflow-x:hidden;-webkit-tap-highlight-color:transparent;overflow-wrap:anywhere;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;padding-block:0 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+header{padding:36px 0 20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,5vw,46px);line-height:1.08;margin:10px 0 10px;text-wrap:balance;letter-spacing:-.01em}
+h1 span{background:linear-gradient(90deg,var(--red),var(--amber) 45%,var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);max-width:70ch;margin:0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(5,5,7,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-left,0px))}
+nav .in{max-width:1120px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.tab{flex:0 0 auto;min-height:40px;-webkit-appearance:none;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:9px 16px;border-radius:999px;font:700 13px var(--body);cursor:pointer}
+.tab:hover{border-color:#44445a}
+.tab[aria-selected=true]{background:var(--fg);color:#000;border-color:var(--fg)}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+section.pane{display:none;padding-top:28px}
+section.pane.on{display:block}
+h2{font-family:var(--disp);font-weight:500;font-size:clamp(18px,3vw,24px);margin:0 0 6px;line-height:1.2;text-wrap:balance}
+h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:30px 0 12px;font-weight:800}
+.sub{color:var(--mut);margin:0 0 18px;max-width:75ch}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr))}
+.grid.w2{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+.card.big{padding:22px}
+.k{font-size:12px;color:var(--mut);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.num{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,52px);line-height:1;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.num.sm{font-size:30px}
+.note{font-size:13px;color:var(--mut)}
+.gov{cursor:pointer;text-align:left;font:inherit;color:inherit;position:relative;overflow:hidden;transition:transform .15s,border-color .15s}
+.gov:hover{transform:translateY(-2px)}
+.gov[aria-pressed=true]{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 10px 40px -12px var(--c)}
+.gov .dot{width:10px;height:10px;border-radius:50%;background:var(--c);display:inline-block;margin-right:8px}
+.gov .t{font-weight:800;font-size:16px}
+.gov .p{font-size:12px;color:var(--mut)}
+.gov .pair{display:flex;gap:18px;margin-top:12px}
+.gov .pair b{font-family:var(--disp);font-size:26px;display:block;line-height:1;font-variant-numeric:tabular-nums}
+.gov .pair small{font-size:11px;color:var(--mut);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{min-height:40px;border:0;background:transparent;color:var(--mut);padding:9px 16px;border-radius:999px;font:700 13px var(--body);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--c,var(--fg));color:#000}
+.inst{border-left:4px solid var(--c);}
+.inst .n{font-weight:800;font-size:16px;line-height:1.3}
+.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#ffffff14;color:var(--fg);margin-top:8px}
+a{color:var(--cy)}
+.src{font-size:12.5px;color:var(--mut);margin-top:8px}
+.empty{border:1px dashed #3a3a4c;border-radius:16px;padding:26px;color:var(--mut)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 10px;font-size:13px;color:var(--mut)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.chart{overflow-x:auto}
+.chart svg{display:block;min-width:620px;width:100%;height:auto}
+.chart text{fill:var(--mut);font:600 11px var(--body)}
+.chart .v{fill:var(--fg);font-weight:800}
+.chart .bar{transition:opacity .15s}
+.chart .bar:hover{opacity:.82}
+#tip{position:fixed;pointer-events:none;background:#fff;color:#000;font:700 12px var(--body);padding:6px 10px;border-radius:8px;z-index:50;display:none;max-width:260px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{min-height:40px;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 14px;border-radius:999px;font:700 13px var(--body);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--fg);color:#000}
+.blk{position:relative}
+.blk .bar{height:8px;border-radius:99px;background:#ffffff14;margin:12px 0 10px;overflow:hidden}
+.blk .bar i{display:block;height:100%;border-radius:99px;background:var(--c)}
+.blk .rk{position:absolute;top:16px;right:16px;font:700 12px var(--disp);color:var(--c)}
+.blk .yy{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;font-size:11px;color:var(--mut);text-align:center;font-variant-numeric:tabular-nums}
+.blk .yy b{display:block;color:var(--fg);font-size:14px}
+details{margin-top:12px;font-size:13px}
+summary{cursor:pointer;color:var(--cy);font-weight:700}
+details ul{margin:8px 0 0;padding:0;list-style:none;max-height:240px;overflow:auto}
+details li{padding:4px 0;border-top:1px solid var(--line);color:var(--mut)}
+details li b{color:var(--fg);font-variant-numeric:tabular-nums}
+.two{display:grid;gap:14px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+@media(max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+ul.plain{margin:8px 0 0;padding-left:18px;color:var(--mut)}
+ul.plain li{margin:4px 0}
+.btnp{min-height:40px;margin-top:16px;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:9px 16px;border-radius:999px;font:700 13px var(--body);cursor:pointer;-webkit-appearance:none}
+.btnp:hover{border-color:#44445a}
+.status{font-size:13px;color:var(--mut);margin:0 0 14px}
+footer{margin-top:44px;color:var(--mut);font-size:12.5px}
+
+/* ---- visual vibrante ---- */
+body{background:radial-gradient(900px 520px at 6% -4%,rgba(255,59,78,.20),transparent 62%),radial-gradient(800px 520px at 96% 2%,rgba(46,196,255,.18),transparent 62%),radial-gradient(760px 620px at 50% 108%,rgba(184,107,255,.16),transparent 62%),var(--bg);background-attachment:fixed}
+@keyframes flow{to{background-position:300% 0}}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:1}}
+.eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid #ffffff2a;background:linear-gradient(90deg,#ff3b4e22,#2ec4ff22,#19e07a22);color:#e9e9f5}
+h1{font-size:clamp(28px,6.4vw,58px);font-weight:700;letter-spacing:-.02em;filter:drop-shadow(0 0 20px rgba(46,196,255,.35)) drop-shadow(0 4px 30px rgba(255,59,78,.25))}
+h1 span{background:linear-gradient(90deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff,#ff4d8d,#ff3b4e);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite}
+header::after{content:"";display:block;height:4px;width:min(260px,60%);margin-top:18px;border-radius:99px;background:linear-gradient(90deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff);background-size:200% auto;animation:flow 6s linear infinite,glow 3s ease-in-out infinite}
+.card{--c:var(--cy);background:linear-gradient(150deg,color-mix(in srgb,var(--c) 26%,#0c0c13) 0%,#0c0c13 68%);border-color:color-mix(in srgb,var(--c) 55%,#23232f);box-shadow:0 10px 34px -20px var(--c);container-type:normal}
+.card .k{color:var(--c)}
+.card .note,.card .src{color:#cfd0e2}
+.card .sub,ul.plain{color:#d6d7e8}
+.chart.card{background:#0c0c13;border-color:var(--line);box-shadow:none}
+.grid.w2>.card:nth-child(3n+1){--c:var(--cy)}
+.grid.w2>.card:nth-child(3n+2){--c:var(--mag)}
+.grid.w2>.card:nth-child(3n+3){--c:var(--amber)}
+.num{display:block;white-space:nowrap;overflow:hidden}
+.num.txt{white-space:normal;overflow:visible}
+h2{background:linear-gradient(90deg,#fff,#9be8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+h3{color:#ffd166}
+.tab{border-color:#ffffff22}
+.tab[aria-selected=true]{background:linear-gradient(90deg,#ff3b4e,#ffb020,#2ec4ff);color:#000;border-color:transparent}
+.sumc{position:relative;padding-top:20px}
+.sumc .rk2{position:absolute;top:14px;right:16px;font:700 13px var(--disp);color:var(--c)}
+.sumc .nm{font-weight:800;font-size:19px;color:var(--c)}
+.sumc .tot{display:block;white-space:nowrap;overflow:hidden;font:700 clamp(40px,8vw,64px)/1 var(--disp);color:var(--c);margin:10px 0 2px;font-variant-numeric:tabular-nums;text-shadow:0 0 24px color-mix(in srgb,var(--c) 55%,transparent)}
+.sumc .bar2{height:10px;border-radius:99px;background:#ffffff16;overflow:hidden;margin:12px 0}
+.sumc .bar2 i{display:block;height:100%;background:var(--c);border-radius:99px}
+.sumc .pair2{display:flex;gap:22px;flex-wrap:wrap}
+.sumc .pair2 b{font:700 22px var(--disp);color:var(--c);display:block;white-space:nowrap}
+.sumc .pair2 small{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#cfd0e2}
+.cad{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:1px 9px;border-radius:999px;border:1px solid var(--k);color:var(--k);margin:0 4px}
+.chk{border-color:#ffb020}
+.chk ul.plain li{margin:8px 0}
+@media(max-width:640px){body{background-attachment:scroll}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media(max-width:1100px){.wrap{max-width:100%}}
+@media(max-width:640px){body{background-attachment:scroll;font-size:14.5px}header{padding:24px 0 14px}.card.big{padding:18px}.chart svg{min-width:560px}}
+@media(max-width:360px){.grid,.grid.w2{grid-template-columns:minmax(0,1fr)}.gov .pair{gap:14px}.seg{display:flex;width:100%}.seg button{flex:1 1 100%}}
+@page{size:A4;margin:12mm}
+@media print{
+:root{--bg:#fff;--card:#fff;--card2:#f3f3f6;--line:#c9c9d3;--fg:#111;--mut:#444;--cy:#0a6a99;color-scheme:light}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff;color:#111;padding:0;font-size:11pt}
+body::before,#tip{display:none}
+.noprint,nav,.seg,.chips,details summary{display:none!important}
+section.pane{display:block!important;padding-top:14px;break-before:auto}
+.card,.inst,.blk{break-inside:avoid}
+.chart{overflow:visible}.chart svg{min-width:0!important}
+.chart text{fill:#333}.chart .v{fill:#000}
+details>ul{display:block;max-height:none;overflow:visible}
+details:not([open])>ul{display:block}
+a{color:#0a4a75}
+.gov{box-shadow:none!important}
+.card{background:#fff!important;box-shadow:none!important}
+.card .note,.card .src,.card .sub,ul.plain{color:#333}
+h2,h1 span,.sumc .tot{background:none;-webkit-background-clip:border-box;background-clip:border-box}
+h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="eyebrow">Levantamento com fontes oficiais · 31/10/2026 · Professor Jonh Cleidson</div>
+<h1>ENEM, universidades federais, <span>ProUni e Fies</span></h1>
+<button class="btnp noprint" type="button" onclick="window.print()">🖨️ Imprimir ou salvar em PDF</button>
+<p class="lead" style="margin-top:16px">Quatro painéis: o que cada governo criou em universidades e institutos federais, a evolução do ProUni e do Fies ano a ano e a Matemática das seis últimas provas do ENEM, questão por questão.</p>
+</header>
+<nav><div class="in" role="tablist" id="tabs">
+<button class="tab" role="tab" data-t="governos">Governos: UF e IF</button>
+<button class="tab" role="tab" data-t="prouni">ProUni</button>
+<button class="tab" role="tab" data-t="fies">Fies</button>
+<button class="tab" role="tab" data-t="enem">ENEM: Matemática 2020–2025</button>
+</div></nav>
+
+<section class="pane" id="p-governos">
+<h2>O que cada governo criou</h2>
+<p class="sub">Escolha um governo. Em seguida, veja as universidades federais (UF) ou os institutos federais (IF) criados no período.</p>
+<div class="grid" id="govgrid"></div>
+<div style="margin:26px 0 14px" class="seg" id="kind"></div>
+<div id="govout"></div>
+<p class="src" id="govnote"></p>
+<h3>Somatório por presidente, do 1º ao último</h3>
+<p class="sub">Soma das universidades federais (UF) e dos institutos federais (IF) criados em todos os mandatos de cada presidente. Vermelho: Lula e Dilma. Verde: Temer. Azul: Bolsonaro.</p>
+<div class="grid" id="govsum"></div>
+<p class="src" id="sumnote"></p>
+</section>
+
+<section class="pane" id="p-prouni">
+<h2>ProUni</h2>
+<p class="sub">Programa Universidade para Todos: bolsas em instituições privadas de ensino superior para quem estudou em escola pública ou com bolsa integral.</p>
+<div class="grid w2" id="prouni-info"></div>
+<h3>Bolsas ocupadas por ano e por governo</h3>
+<div class="legend" id="lg-prouni"></div>
+<div class="card chart" id="ch-prouni"></div>
+<p class="src" id="prouni-src"></p>
+<div class="card big chk" id="prouni-check" style="--c:#ffb020;margin-top:14px"></div>
+<div class="grid" id="prouni-kpi" style="margin-top:14px"></div>
+</section>
+
+<section class="pane" id="p-fies">
+<h2>Fies</h2>
+<p class="sub">Fundo de Financiamento Estudantil: financiamento de cursos superiores em instituições privadas, pago depois pelo estudante.</p>
+<div class="grid w2" id="fies-info"></div>
+<h3>Novos financiamentos por ano e por governo</h3>
+<div class="legend" id="lg-fies"></div>
+<div class="card chart" id="ch-fies"></div>
+<p class="src" id="fies-src"></p>
+<div class="grid" id="fies-kpi" style="margin-top:14px"></div>
+</section>
+
+<section class="pane" id="p-enem">
+<h2>Matemática no ENEM, 2020 a 2025</h2>
+<p class="sub">Provas impressas oficiais do ENEM, aplicadas pelo INEP/MEC: caderno do 2º dia, questões 136 a 180, de cada edição. Cada questão foi classificada em um único bloco, pelo conteúdo central da resolução, nos nove blocos do Tessat.</p>
+<div class="grid" id="enem-kpi"></div>
+<h3>Escolha o recorte</h3>
+<div class="chips" id="yearchips"></div>
+<p class="status" id="enem-status" role="status"></p>
+<div class="grid" id="blocks"></div>
+<h3>Panorama completo das 270 questões</h3>
+<div class="two">
+<div class="card chart" id="ch-cum"></div>
+<div class="card chart" id="ch-year"></div>
+</div>
+<div class="legend" id="lg-enem" style="margin-top:12px"></div>
+<p class="src">A classificação por bloco é de responsabilidade do autor deste documento. Fonte das provas: gov.br/inep, edições de 2020 (caderno amarelo), 2021, 2022, 2024 e 2025 (cinza) e 2023 (azul).</p>
+</section>
+
+<footer id="refs"></footer>
+</div>
+<div id="tip"></div>
+
+<script>
+const G={lula:'#ff3b4e',dilma:'#ff3b4e',temer:'#19e07a',bolso:'#2f7bff',cy:'#2ec4ff',green:'#19e07a',amber:'#ffb020'};
+const NF=new Intl.NumberFormat('pt-BR');const f=n=>NF.format(n);
+const pc=(n,d)=>(100*n/d).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+const L=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+const tip=document.getElementById('tip');
+function bindTip(root){root.querySelectorAll('[data-tip]').forEach(e=>{e.addEventListener('mousemove',ev=>{tip.style.display='block';tip.textContent=e.dataset.tip;tip.style.left=Math.min(ev.clientX+12,innerWidth-270)+'px';tip.style.top=(ev.clientY+14)+'px'});e.addEventListener('mouseleave',()=>tip.style.display='none')})}
+
+/* ---------- Governos ---------- */
+const GOV=[
+{id:'l1',n:'Lula 01',p:'2003–2006',c:G.lula,uf:[
+ ['UFGD','Universidade Federal da Grande Dourados','Nova'],['UFRB','Universidade Federal do Recôncavo da Bahia','Nova'],['UFABC','Universidade Federal do ABC','Nova'],
+ ['UFTM','Universidade Federal do Triângulo Mineiro','Transformação'],['UFERSA','Universidade Federal Rural do Semi-Árido','Transformação'],['UNIFAL','Universidade Federal de Alfenas','Transformação'],['UFVJM','Universidade Federal dos Vales do Jequitinhonha e Mucuri','Transformação'],['UTFPR','Universidade Tecnológica Federal do Paraná','Transformação']],
+ ifs:[],ifnote:'Os institutos federais só surgem em 2008, no governo seguinte.',
+ note:'UFT (2003) e UNIVASF (2004) constam na lista do MEC como consolidação e não foram contadas.',
+ src:[['MEC/SESu no Senado, 22/04/2009','https://www.senado.leg.br/comissoes/ce/ap/ap20090422_reuni_rodrigoramalho.pdf']]},
+{id:'l2',n:'Lula 02',p:'2007–2010',c:G.lula,uf:[
+ ['UFCSPA','Universidade Federal de Ciências da Saúde de Porto Alegre','Janeiro de 2008'],['UNIPAMPA','Universidade Federal do Pampa','Janeiro de 2008'],['UFFS','Universidade Federal da Fronteira Sul','Lei 12.029, 15/09/2009'],['UNILA','Universidade Federal da Integração Latino-Americana','Sanção em 12/01/2010'],['UNILAB','Universidade da Integração Internacional da Lusofonia Afro-Brasileira','Sanção em 20/07/2010']],
+ ifs:[['38 institutos federais','Criados pela Lei 11.892, de 29/12/2008, em sua maioria por transformação de CEFETs e escolas agrotécnicas','Lei 11.892/2008'],['214 novas unidades','Campi criados na rede federal de educação profissional entre 2003 e 2010 (Lula 1 e Lula 2)','SETEC/MEC, 2013']],
+ note:'',src:[['Lei 12.029/2009, Câmara','https://www2.camara.leg.br/legin/fed/lei/2009/lei-12029-15-setembro-2009-591206-publicacaooriginal-116315-pl.html'],['Itaipu (UNILA)','https://www.itaipu.gov.br/sala-de-imprensa/noticia/presidente-lula-sanciona-lei-que-cria-unila'],['CAPES (UNILAB)','https://www.gov.br/capes/pt-br/assuntos/noticias/lula-sanciona-lei-que-cria-a-universidade-luso-afro-brasileira'],['Lei 11.892, Câmara','https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html'],['SETEC/MEC na Câmara','https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/ce/arquivos/apresentacao-alessio-trindade-setec-mec/view']]},
+{id:'d1',n:'Dilma 01',p:'2011–2014',c:G.dilma,uf:[
+ ['Unifesspa','Universidade Federal do Sul e Sudeste do Pará','Leis de junho de 2013'],['UFOB','Universidade Federal do Oeste da Bahia','Leis de junho de 2013'],['UFSB','Universidade Federal do Sul da Bahia','Leis de junho de 2013'],['UFCA','Universidade Federal do Cariri','Leis de junho de 2013']],
+ ifs:[['208 novas unidades previstas','Meta da fase III da expansão, 2011–2014. Valor de 2013, previsão e não resultado realizado.','SETEC/MEC, 2013']],ifnote:'Nenhum instituto federal novo foi criado: a rede foi instituída em 2008. O que cresceu foram as unidades.',
+ note:'',src:[['Agência Senado, 05/06/2013','https://www12.senado.leg.br/noticias/materias/2013/06/05/lidice-comemora-criacao-de-novas-universidades-federais'],['SETEC/MEC na Câmara','https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/ce/arquivos/apresentacao-alessio-trindade-setec-mec/view']]},
+{id:'d2',n:'Dilma 02',p:'2015 a ago/2016',c:G.dilma,uf:[],ufnote:'Nenhuma lei de criação de universidade federal localizada nos portais da Câmara e do Senado.',ifs:[],ifnote:'Nenhum instituto federal criado: o texto atualizado da Lei 11.892 só é alterado por lei de 2026.',
+ note:'',src:[['Lei 11.892 (Câmara)','https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html']]},
+{id:'t',n:'Temer',p:'ago/2016 a 2018',c:G.temer,uf:[
+ ['UFR','Universidade Federal de Rondonópolis','Lei 13.637, desmembramento'],['UFJ','Universidade Federal de Jataí','Lei 13.635, desmembramento'],['UFCAT','Universidade Federal de Catalão','Lei 13.634, desmembramento']],
+ ifs:[],ifnote:'Nenhum instituto federal criado localizado.',note:'As três leis são de 2018 e criaram universidades por desmembramento de universidades existentes.',
+ src:[['Agência Senado, 21/03/2018','https://www12.senado.leg.br/noticias/materias/2018/03/21/sancionadas-leis-para-criacao-de-tres-universidades']]},
+{id:'b',n:'Bolsonaro',p:'2019–2022',c:G.bolso,uf:[
+ ['UFNT','Universidade Federal do Norte do Tocantins','Lei 13.856, 09/07/2019, desmembramento da UFT']],
+ ifs:[],ifnote:'Nenhuma lei de criação de instituto federal nem balanço oficial aberto de campi criados no período foi localizado.',note:'',
+ src:[['Agência Senado, 09/07/2019','https://www12.senado.leg.br/noticias/materias/2019/07/09/sancionada-criacao-da-universidade-federal-do-norte-do-tocantins']]},
+{id:'l3',n:'Lula 03',p:'2023–2026',c:G.lula,uf:[
+ ['UF Indígena','Universidade Federal Indígena, com sede em Brasília','Lei 15.418, 29/05/2026'],['UF do Esporte','Universidade Federal do Esporte','Lei 15.457, 03/07/2026'],['UF da Fronteira Norte','Universidade Federal da Fronteira Norte, no Amapá','Lei 15.520, 25/09/2026'],
+ ['Ex-CEFET-MG','Centro Federal de Educação Tecnológica de Minas Gerais transformado em universidade','Lei 15.521, 25/09/2026'],['Ex-CEFET/RJ','Centro Federal de Educação Tecnológica do Rio de Janeiro transformado em universidade','Lei 15.521, 25/09/2026']],
+ ifs:[['Instituto Federal do Sertão Paraibano','Último instituto federal listado no art. 5º da Lei 11.892, que passa a ter 39','Lei 15.367, 30/03/2026']],note:'',
+ src:[['Câmara: UF Indígena','https://www.camara.leg.br/noticias/1277738-nova-lei-cria-universidade-federal-indigena-com-sede-em-brasilia/'],['Câmara: UF do Esporte','https://www.camara.leg.br/noticias/1288020-nova-lei-cria-primeira-universidade-federal-dedicada-ao-esporte/'],['Câmara: UF Fronteira Norte','https://www.camara.leg.br/noticias/1306749-lei-cria-a-universidade-federal-da-fronteira-norte-no-amapa'],['Agência Senado: CEFETs','https://www12.senado.leg.br/noticias/materias/2026/09/25/centros-de-educacao-tecnologica-de-mg-e-do-rj-viram-universidades'],['Lei 15.367/2026','https://www2.camara.leg.br/legin/fed/lei/2026/lei-15367-30-marco-2026-798892-publicacaooriginal-178682-pl.html']]}
+];
+const IFN={l1:0,l2:38,d1:0,d2:0,t:0,b:0,l3:1};
+const PRES=[{n:'Lula',c:G.lula,ids:['l1','l2','l3'],p:'2003–2010 e 2023–2026'},{n:'Dilma',c:G.dilma,ids:['d1','d2'],p:'2011 a ago/2016'},{n:'Temer',c:G.temer,ids:['t'],p:'ago/2016 a 2018'},{n:'Bolsonaro',c:G.bolso,ids:['b'],p:'2019–2022'}];
+function renderSum(){
+ const rows=PRES.map(p=>{const uf=p.ids.reduce((a,i)=>a+GOV.find(g=>g.id==i).uf.length,0),ifs=p.ids.reduce((a,i)=>a+IFN[i],0);return{...p,uf,ifs,t:uf+ifs}}).sort((a,b)=>b.t-a.t||b.uf-a.uf);
+ const mx=rows[0].t||1;
+ document.getElementById('govsum').innerHTML=rows.map((r,i)=>`<div class="card sumc" style="--c:${r.c}"><span class="rk2">${i+1}º lugar</span><div class="nm">${r.n}</div><div class="note">${r.p}</div><span class="tot">${f(r.t)}</span><div class="note">universidades e institutos federais criados</div><div class="bar2"><i style="width:${100*r.t/mx}%"></i></div><div class="pair2"><div><b>${f(r.uf)}</b><small>UF criadas</small></div><div><b>${f(r.ifs)}</b><small>IF criados</small></div></div></div>`).join('');
+ document.getElementById('sumnote').textContent='Total = UF + IF. Não inclui campi novos. Em Lula, os 38 IF de 2008 vêm, em sua maioria, da transformação de CEFETs e escolas agrotécnicas (Lei 11.892/2008), e 2 das UF de 2026 vêm da transformação de CEFETs. Em Temer, as 3 UF nasceram por desmembramento. Dilma 01 e Dilma 02 foram somados.';
+}
+let selGov='l1',selKind='uf';
+function renderGov(){
+ const g=document.getElementById('govgrid');
+ g.innerHTML=GOV.map(x=>`<button class="card gov" style="--c:${x.c}" data-g="${x.id}" aria-pressed="${x.id==selGov}"><div class="t"><span class="dot"></span>${x.n}</div><div class="p">${x.p}</div><div class="pair"><div><b>${x.uf.length}</b><small>UF criadas</small></div><div><b>${IFN[x.id]}</b><small>IF criados</small></div></div></button>`).join('');
+ g.querySelectorAll('.gov').forEach(b=>b.onclick=()=>{selGov=b.dataset.g;renderGov()});
+ const x=GOV.find(y=>y.id==selGov);
+ document.getElementById('kind').style.setProperty('--c',x.c);
+ document.getElementById('kind').innerHTML=`<button data-k="uf" aria-pressed="${selKind=='uf'}">Universidades federais criadas</button><button data-k="if" aria-pressed="${selKind=='if'}">Institutos federais criados</button>`;
+ document.querySelectorAll('#kind button').forEach(b=>b.onclick=()=>{selKind=b.dataset.k;renderGov()});
+ let h='';
+ if(selKind=='uf'){
+  h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${x.uf.length}</div><div class="note">universidades federais criadas</div></div>`;
+  h+=x.uf.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag">${i[2]}</span></div>`).join('')+'</div>';
+  if(!x.uf.length)h+=`<div class="empty">${x.ufnote}</div>`;
+ }else{
+  h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${IFN[x.id]}</div><div class="note">institutos federais criados</div></div>`;
+  h+=x.ifs.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag">${i[2]}</span></div>`).join('')+'</div>';
+  if(!x.ifs.length)h+=`<div class="empty">${x.ifnote}</div>`;
+  else if(x.ifnote)h+=`<p class="src">${x.ifnote}</p>`;
+ }
+ document.getElementById('govout').innerHTML=h;
+ document.getElementById('govnote').innerHTML=(x.note?x.note+'<br>':'')+'Fontes: '+x.src.map(s=>L(s[1],s[0])).join(' · ');
+ fit();
+}
+
+/* ---------- gráfico de colunas ---------- */
+function govOf(y){return y<=2010?['Lula',G.lula]:y<=2015?['Dilma',G.dilma]:y<=2018?['Temer',G.temer]:y<=2022?['Bolsonaro',G.bolso]:['Lula',G.lula]}
+function cols(el,items,o){
+ const W=900,H=360,ml=54,mr=10,mt=26,mb=40,n=items.length,iw=(W-ml-mr)/n,bw=Math.min(40,iw*.66);
+ const mx=Math.max(...items.map(i=>i.v||0));const step=o.step;const top=Math.ceil(mx/step)*step;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label}">`;
+ for(let t=0;t<=top;t+=step){const y=mt+(H-mt-mb)*(1-t/top);s+=`<line x1="${ml}" x2="${W-mr}" y1="${y}" y2="${y}" stroke="#23232f"/><text x="${ml-8}" y="${y+4}" text-anchor="end">${f(t)}</text>`}
+ s+=`<text x="${ml-8}" y="12" text-anchor="end" style="font-size:10px">${o.unit}</text>`;
+ items.forEach((it,i)=>{const cx=ml+iw*i+iw/2;
+  if(it.v==null){s+=`<text x="${cx}" y="${H-mb-8}" text-anchor="middle" style="opacity:.55">s/d</text>`}
+  else{const h=(H-mt-mb)*it.v/top,y=H-mb-h;
+   const st=it.ghost?`fill="${it.c}" fill-opacity=".14" stroke="${it.c}" stroke-dasharray="4 3" stroke-width="1.5"`:`fill="${it.c}"`;
+   s+=`<rect class="bar" x="${cx-bw/2}" y="${y}" width="${bw}" height="${h}" rx="4" ${st} data-tip="${it.tip}"/>`;
+   s+=`<text class="v" x="${cx}" y="${y-6}" text-anchor="middle">${f(it.v)}${it.ghost?"*":""}</text>`}
+  s+=`<text x="${cx}" y="${H-mb+18}" text-anchor="middle">${it.l}</text>`});
+ el.innerHTML=s+'</svg>';bindTip(el);
+}
+function legend(el,extra){el.innerHTML=[['Lula e Dilma',G.lula],['Temer',G.temer],['Bolsonaro',G.bolso]].map(a=>`<span><i style="background:${a[1]}"></i>${a[0]}</span>`).join('')+(extra||'')}
+
+/* ---------- ProUni ---------- */
+const PROUNI=[[2005,95.6],[2006,109.0],[2007,105.5],[2008,124.6],[2009,161.3],[2010,152.6],[2011,170.7],[2012,176.7],[2013,177.2],[2014,223.4],[2015,252.7],[2016,238.9],[2017,240.6],[2020,271.747]];
+function renderProuni(){
+ document.getElementById('prouni-check').innerHTML=`<div class="k" style="--c:#ffb020">Verificação do número de 2019 (quase 616 mil)</div>
+ <ul class="plain">
+ <li><b style="color:#fff">O que a fonte diz.</b> A ${L('https://www12.senado.leg.br/noticias/infomaterias/2025/05/bolsa-do-prouni-inclui-ha-20-anos-aluno-de-baixa-renda-na-universidade','Agência Senado (16/05/2025)')} fala em "quase 616 mil bolsistas" em 2019 e "perto de 404 mil bolsas concedidas" em 2023. A reportagem não cita a base oficial. Não consegui confirmar o número em dado aberto do MEC, por isso ele <b style="color:#ffb020">não entra</b> nas barras.</li>
+ <li><b style="color:#fff">Que tipo de número é.</b> 616 mil é muito acima das 240 mil bolsas ocupadas por ano da série oficial. Só se explica como total de bolsistas ativos, que soma turmas de vários anos (cursos de 4 a 6 anos), e não como bolsas do ano de 2019.</li>
+ <li><b style="color:#fff">De quem é a política.</b> Na série oficial, a expansão que levou o programa ao topo foi de 2014–2015, no governo Dilma: 223,4 mil e 252,7 mil bolsas ocupadas, o maior valor da série. Em 2016 e 2017, já sob Temer, foram 238,9 mil e 240,6 mil. Em 2019, o MEC ofertou o recorde de 413 mil bolsas.</li>
+ <li><b style="color:#fff">Conclusão.</b> Os dados mostram que o pico de ingressos foi na gestão Dilma e que o estoque de 2019 vem de turmas de 2015 em diante. Eles <b style="color:#ffb020">não sustentam</b> atribuir os 616 mil só à Dilma, porque parte dessas turmas entrou com Temer, e ainda falta saber a base do número.</li>
+ <li><b style="color:#fff">A queda sob Bolsonaro.</b> 2020 foi alto (271.747 ocupadas). A queda vem em 2021: oferta −29,4%, 60,3% sem ocupar (recorde) e ≈ 117 mil bolsas ocupadas, −57% sobre 2020. A ociosidade seguiu em 70% e 77% em 2022. Parte do período coincide com a pandemia, e o artigo da SciELO não isola o efeito de política.</li>
+ </ul>`;
+ document.getElementById('prouni-info').innerHTML=`
+ <div class="card big"><div class="k">O que é</div><p style="margin:8px 0 0">Programa do governo federal criado pela Lei 11.096, de 13/01/2005 (primeiro governo Lula). Dá bolsa de estudo de 100%, 50% ou 25% da mensalidade em instituições privadas de ensino superior. <b>O aluno não precisa devolver.</b></p></div>
+ <div class="card big"><div class="k">Quem pode</div><ul class="plain"><li>Ensino médio completo em escola pública, ou em escola privada com bolsa integral; pessoas com deficiência; professores da rede pública em licenciaturas, sem exigência de renda.</li><li>Bolsa integral: renda familiar de até 1,5 salário mínimo por pessoa. Parcial: até 3.</li><li>Não ter diploma de curso superior.</li></ul></div>
+ <div class="card big"><div class="k">Papel do ENEM</div><p style="margin:8px 0 0">A seleção usa o resultado do ENEM e o perfil socioeconômico (art. 3º da lei). A Agência Senado informa mínimo de 450 pontos e redação diferente de zero; esse piso vem de normas do MEC e muda por edital.</p></div>`;
+ const arr=[];for(let y=2005;y<=2023;y++){const r=PROUNI.find(a=>a[0]==y);
+  if(r)arr.push({l:y,v:r[1],c:govOf(y)[1],tip:`${y} · ${govOf(y)[0]} · ${f(Math.round(r[1]*1000))} bolsas ocupadas`});
+  else if(y==2021)arr.push({l:y,v:117.1,c:G.bolso,ghost:1,tip:'2021 · Bolsonaro · ≈ 117 mil bolsas ocupadas (cálculo: 294,9 mil ofertadas × 39,7% ocupadas)'});
+  else if(y==2023)arr.push({l:y,v:404,c:G.lula,ghost:1,tip:'2023 · Lula · perto de 404 mil bolsas concedidas (Agência Senado; outra métrica)'});
+  else arr.push({l:y,v:null,c:govOf(y)[1]})}
+ cols(document.getElementById('ch-prouni'),arr,{unit:'mil bolsas',step:100,label:'Bolsas ocupadas do ProUni por ano'});
+ legend(document.getElementById('lg-prouni'),'<span><i style="background:none;border:1.5px dashed #9a9ab0"></i>* Tracejado: valor calculado (2021) ou de outra métrica (2023), não comparável direto com as barras cheias</span><span>s/d: série anual aberta não localizada (inclui 2019 e 2022)</span>');
+ document.getElementById('prouni-src').innerHTML='Barras cheias, 2005–2017: bolsas ocupadas, Tabela 2 do artigo do '+L('https://publicacoes.tesouro.gov.br/index.php/cadernos/article/download/157/155/647','Cadernos de Finanças Públicas (Tesouro Nacional)')+', com dados da Receita Federal e do MEC. 2020: '+L('https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/ce/apresentacoes-em-eventos/apresentacoes-audiencias-2021/arquivos-2021/RelatrioSumarizadodeAesdaSESu1.pdf','Relatório da SESu/MEC na Câmara')+' (168.210 no 1º semestre + 103.537 no 2º). 2021, tracejado: cálculo próprio com os dados da '+L('https://www.scielo.br/j/ep/a/zwNbPvghRkKBMczcFSMvNkR/?lang=pt','revista Educação e Pesquisa (SciELO)')+': 294,9 mil bolsas ofertadas e 60,3% sem ocupar, recorde. 2023, tracejado: '+L('https://www12.senado.leg.br/noticias/infomaterias/2025/05/bolsa-do-prouni-inclui-ha-20-anos-aluno-de-baixa-renda-na-universidade','Agência Senado, 2025')+' (bolsas concedidas, outra métrica). 2016 foi colorido como Temer, ano de transição de governo.';
+ document.getElementById('prouni-kpi').innerHTML=[
+  ['Maior ano 2005–2017','252,7 mil','2015 · Dilma · bolsas ocupadas',G.dilma],
+  ['2020 · Bolsonaro','271.747','bolsas ocupadas (168.210 + 103.537), MEC/SESu',G.bolso],
+  ['2021 · Bolsonaro','≈ 117 mil','queda de ≈ 57% sobre 2020 (cálculo próprio)',G.bolso],
+  ['Oferta de 2021','294,9 mil','queda de 29,4% sobre 2020 (≈ 417 mil); 60,3% sem ocupar, recorde',G.bolso],
+  ['Ociosidade em 2022','70% e 77%','1º e 2º semestres, tabela da SESu/MEC divulgada pelo GC Notícias',G.bolso],
+  ['Oferta de 2019','413.114','243.888 em 2019/1 (recorde) + 169.226 em 2019/2, MEC',G.bolso],
+  ['Bolsas ocupadas, 2005–2017','≈ 2,2 milhões','Soma da Tabela 2 do Tesouro Nacional',G.green],
+  ['Bolsas ocupadas, 2005–2021','2.978.686','Total do MEC: 2.093.743 integrais e 884.943 parciais',G.cy],
+  ['Estudantes em 20 anos','≈ 3,5 milhões','73% com bolsa integral (Agência Senado, 2025)',G.lula]
+ ].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm" style="color:${k[3]}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('')+`<div class="card" style="--c:#2ec4ff"><div class="k">Fontes do MEC</div><div class="note" style="margin-top:8px">${L('https://www.gov.br/mec/pt-br/assuntos/es/prouni-','MEC: Programa Universidade para Todos')} · ${L('https://legis.senado.leg.br/norma/570545/publicacao/15678891','Lei 11.096/2005')}</div></div>`;
+}
+
+/* ---------- Fies ---------- */
+const FIES=[[2010,76],[2011,154],[2012,377],[2013,560],[2014,733],[2015,287],[2016,203],[2017,175],[2018,83],[2019,85],[2020,53],[2021,45],[2022,50]];
+function renderFies(){
+ document.getElementById('fies-info').innerHTML=`
+ <div class="card big"><div class="k">O que é</div><p style="margin:8px 0 0">Fundo contábil do MEC, criado pela Lei 10.260, de 12/07/2001, que financia até 100% dos encargos educacionais em cursos superiores não gratuitos. <b>É empréstimo: o estudante paga depois.</b> Os contratos ativos estão em utilização, carência ou pagamento (amortização).</p></div>
+ <div class="card big"><div class="k">Condições</div><ul class="plain"><li>Curso com avaliação positiva: conceito 3 ou mais no Sinaes.</li><li>Prioridade a quem não concluiu o ensino superior e não teve financiamento anterior.</li><li>Desde 2010, o INEP informa que os resultados do ENEM passaram a ser adotados pelo Fies.</li></ul></div>
+ <div class="card big"><div class="k">Marcos legais</div><ul class="plain"><li>Lei 10.260/2001: criação.</li><li>Lei 13.530, de 07/12/2017: Comitê Gestor, fundo garantidor (FG-Fies) e financiamento de cursos técnicos e pós-graduação.</li><li>Lei 14.375/2022: renda familiar por pessoa passa a entrar na seleção.</li></ul></div>`;
+ const arr=FIES.map(([y,v])=>({l:y,v,c:govOf(y)[1],tip:`${y} · ${govOf(y)[0]} · ${f(v*1000)} novos financiamentos`}));
+ cols(document.getElementById('ch-fies'),arr,{unit:'mil contratos',step:200,label:'Novos financiamentos do Fies por ano'});
+ legend(document.getElementById('lg-fies'));
+ document.getElementById('fies-src').innerHTML='2010–2015: '+L('https://www.gov.br/fazenda/pt-br/central-de-conteudo/publicacoes/boletim-de-avaliacao-de-politicas-publicas/arquivos/2017/diagnostico-fies-junho-2017','Diagnóstico Fies, Seae/Ministério da Fazenda, 2017')+' (76.039, 154.367, 377.895, 559.879, 732.593 e 287.417). 2016–2022: gráfico de novos contratos da '+L('https://abmes.org.br/arquivos/documentos/Jornada_Digital_FIES%20digital%20-%20ABMES.pdf','Caixa, setembro de 2024')+', em milhares; a '+L('https://epaa.asu.edu/index.php/epaa/article/download/9091/3561','série de Ikuta e Barreyro (2025), com dados do FNDE')+' dá valores iguais ou 1 mil acima para 2016–2021. A correspondência ano a ano foi feita pela ordem das barras. 2016 foi colorido como Temer, ano de transição.';
+ document.getElementById('fies-kpi').innerHTML=[
+  ['Pico de novos contratos','733 mil','2014 · Dilma',G.dilma],
+  ['Menor valor da série','45 mil','2021 · Bolsonaro',G.bolso],
+  ['Contratos ativos, dez/2024','2.296.531','FNDE, Relatório de Gestão 2024',G.cy],
+  ['Em pagamento','2.088.798','207.196 em utilização e 537 em carência',G.green],
+  ['Vagas aprovadas para 2024','112.168','FNDE, Relatório de Gestão 2024',G.amber]
+ ].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm" style="color:${k[3]}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('')+`<div class="card"><div class="k">Fontes</div><div class="note" style="margin-top:8px">${L('https://www.gov.br/fnde/pt-br/acesso-a-informacao/transparencia-e-prestacao-de-contas/relatorio-de-gestao-1/relatorio-de-gestao-2024/desempenho-da-gestao/areas-finalisticas/fies','FNDE, Relatório de Gestão 2024')} · ${L('https://www2.camara.leg.br/legin/fed/lei/2001/lei-10260-12-julho-2001-329619-normaatualizada-pl.html','Lei 10.260/2001')}</div></div>`;
+}
+
+/* ---------- ENEM ---------- */
+const NAME={"ARIT": "Aritmética e grandezas", "EST": "Estatística e probabilidade", "FUN": "Funções", "GE": "Geometria espacial", "GP": "Geometria plana", "ALG": "Álgebra", "TRI": "Trigonometria", "GA": "Geometria analítica", "LOG": "Raciocínio lógico"};const COL={"ARIT": "#ffb020", "EST": "#2ec4ff", "FUN": "#b86bff", "GE": "#19e07a", "GP": "#ff4d8d", "ALG": "#ffe14d", "TRI": "#4df0d0", "GA": "#ff6a3d", "LOG": "#7aa2ff"};const YEARS=[2020,2021,2022,2023,2024,2025];const D={"2020": [["FUN", "Gráfico do lucro (receita menos custo)"], ["GE", "Projeções ortogonais de sólido"], ["ARIT", "Escala de miniatura"], ["ALG", "Inequação modular (degraus)"], ["ARIT", "Razão inversa (consumo km/L)"], ["EST", "Probabilidade (amigo secreto)"], ["EST", "Contagem de caminhos"], ["ARIT", "Custo total com frete"], ["ARIT", "Consumo e autonomia"], ["ARIT", "Aumentos percentuais sucessivos"], ["ARIT", "Velocidade média"], ["ARIT", "Escala e conversão de unidades"], ["GP", "Dimensões da bandeira"], ["ARIT", "Porcentagem de assentos"], ["ARIT", "Escala (volume na maquete)"], ["EST", "Leitura de gráficos (razão peças/horas)"], ["GP", "Área do piso e custo"], ["EST", "Contagem de algarismos"], ["GP", "Estimativa de multidão por área"], ["EST", "Gráfico de percentuais (Pnad)"], ["FUN", "Lei de Zipf (logaritmo)"], ["FUN", "Carbono 14 (logaritmo)"], ["GE", "Tronco de pirâmide, faces"], ["GE", "Planta de telhado"], ["EST", "Probabilidade e esperança (pneus)"], ["ARIT", "Densidade e conversão (papel A4)"], ["EST", "Média ponderada"], ["EST", "Probabilidade (restituição)"], ["ALG", "Progressão aritmética (tempo de estudo)"], ["ARIT", "Notação científica e vazão"], ["ALG", "Soma de PG infinita (Escher)"], ["EST", "Gráficos de preço e venda"], ["GE", "Cilindros de mesmo volume"], ["GP", "Áreas e porcentagem do lote"], ["EST", "Anagramas (contagem)"], ["EST", "Gráfico de ruído (decibéis)"], ["EST", "Média aritmética"], ["FUN", "Gráfico altura x tempo (vazão)"], ["ARIT", "Porcentagem (mesada)"], ["GE", "Volume e bolinhas submersas"], ["ALG", "Conjuntos (tipos sanguíneos)"], ["ARIT", "Frações e proporção (sócios)"], ["GP", "Octógonos regulares (azulejos)"], ["GE", "Cone e mangueiras"], ["TRI", "Trigonometria (pergolado)"]], "2021": [["FUN", "Função quadrática (arrecadação)"], ["EST", "Gráfico de frequências (Cifra de César)"], ["EST", "Mediana"], ["ARIT", "Aumento percentual de preço"], ["TRI", "Função periódica (mola)"], ["ARIT", "Análise dimensional (unidades)"], ["ALG", "Sistema linear (mala)"], ["ARIT", "Desempenho médio (km/L)"], ["GE", "Área de paredes e piso"], ["GE", "Volume do cilindro (reservatório)"], ["EST", "Leitura de gráfico de barras"], ["EST", "Média a partir de gráfico"], ["EST", "Média ponderada (leitura)"], ["EST", "Desvio padrão"], ["ARIT", "Numeração romana"], ["ARIT", "Adição na base binária"], ["ARIT", "Hectare e preço de lotes"], ["EST", "Combinação (fantasias)"], ["FUN", "Função afim (custo de laboratório)"], ["EST", "Princípio multiplicativo (painel)"], ["ALG", "Potências de q (proporção áurea)"], ["GE", "Cubo e diagonal (Atomium)"], ["EST", "Média por franquia"], ["EST", "Média de faturamento"], ["FUN", "Função afim (hospedagem)"], ["EST", "Probabilidade (dardos)"], ["GE", "Octaedro e planificação"], ["GP", "Triângulo equilátero (miniatura)"], ["GE", "Volume do tronco de cone (caneca)"], ["GP", "Áreas de figuras planas"], ["ARIT", "Porcentagem (frequência cardíaca)"], ["ALG", "Inequação (lavagens)"], ["ARIT", "Orçamento com descontos"], ["GE", "Estrutura de hastes (figuras)"], ["ALG", "Matriz (fluxo de famílias)"], ["ARIT", "Consumo e porcentagem (voo)"], ["ARIT", "Grandezas inversamente proporcionais"], ["ARIT", "Menor custo (suplementos)"], ["EST", "Gráfico de receita e despesa"], ["EST", "Variação percentual em gráfico"], ["EST", "Histograma de preços"], ["ALG", "Operações definidas, equação"], ["ARIT", "Escala (réplica)"], ["ARIT", "Razão (médicos por habitante)"], ["FUN", "Função por partes (imposto)"]], "2022": [["EST", "Média em gráfico (esperança de vida)"], ["GE", "Projeção ortogonal (globo)"], ["ARIT", "Escrita de número grande"], ["GA", "Menor distância entre cidades (plano cartesiano)"], ["ARIT", "Menor custo (operário)"], ["GE", "Volume de esfera (docinhos)"], ["EST", "Média (basquete)"], ["GE", "Menor área de revestimento (piscina)"], ["ARIT", "Total de candidatos"], ["GE", "Volume de cilindro e esferas"], ["LOG", "Percurso em ruas"], ["GE", "Cilindros (caixas-d'água)"], ["EST", "Gráficos (rentabilidade do aluguel)"], ["EST", "Média ponderada (professores)"], ["ARIT", "Regra de três (borrifador)"], ["ARIT", "Dia e ano de um planeta"], ["FUN", "Gráfico distância x tempo (ultrapassagens)"], ["ARIT", "Descontos e acréscimos"], ["GE", "Trajeto sobre cubo (projeção)"], ["GP", "Área da varanda"], ["FUN", "Função afim (meta de vendas)"], ["FUN", "Função por partes (comissão)"], ["FUN", "Função quadrática (epidemia)"], ["ALG", "Padrão e ciclo (treinos)"], ["GP", "Dobras de papel (geometria plana)"], ["GE", "Cone (chocolate)"], ["ARIT", "Variação percentual"], ["EST", "Contagem (apartamentos)"], ["ARIT", "Porcentagem (água)"], ["ARIT", "Razão e porcentagem (cinema)"], ["ARIT", "Proporcionalidade (luminosidade)"], ["EST", "Mediana"], ["FUN", "Função quadrática (saque)"], ["ARIT", "Proporção (pacote de jogo)"], ["ALG", "Sistema linear (circuitos)"], ["ARIT", "Porcentagem (anúncios)"], ["EST", "Princípio multiplicativo (configurações)"], ["GE", "Planificação do cubo"], ["ARIT", "Divisão e resto (dígito verificador)"], ["ARIT", "Escala (refrigerador)"], ["EST", "Contagem de partidas"], ["EST", "Probabilidade (bingo)"], ["FUN", "Raízes de função (V = T² − 4)"], ["EST", "Probabilidade (World Series)"], ["EST", "Gráfico de receitas e despesas"]], "2023": [["GE", "Tronco de cone e massa"], ["EST", "Média de salários"], ["EST", "Probabilidade (urnas)"], ["FUN", "Funções afins (vendas)"], ["EST", "Média, mediana e moda"], ["EST", "Probabilidade (sorteio)"], ["GE", "Volume de cilindro (reservatório)"], ["ARIT", "Aumento percentual"], ["ARIT", "Vazão (cisterna)"], ["GP", "Ângulo de visão (trave)"], ["LOG", "Triângulo mágico"], ["ARIT", "Razão (carboidratos)"], ["GP", "Triângulos (cabos do mastro)"], ["FUN", "Função afim (altitude)"], ["FUN", "Decaimento exponencial (álcool)"], ["EST", "Leitura de gráfico (criptomoedas)"], ["FUN", "Logaritmo (decibel)"], ["ARIT", "Menor tempo de fila"], ["GP", "Círculo e triângulo equilátero"], ["GP", "Área da calçada"], ["FUN", "Leitura de gráfico (sinal)"], ["EST", "Percentual em gráfico"], ["FUN", "Função afim (pescador)"], ["FUN", "Crescimento exponencial (larvas)"], ["EST", "Contagem de senhas"], ["ARIT", "Juros compostos"], ["FUN", "Função afim (concreto)"], ["LOG", "Trajetória de patrulha"], ["EST", "Gráfico de barras (vacinação)"], ["GP", "Área de escada"], ["ALG", "Matriz (gasto calórico)"], ["ARIT", "Proporção (folhas de papel)"], ["EST", "Probabilidade (sorteio em etapas)"], ["FUN", "Função exponencial (luz)"], ["FUN", "Função quadrática (montante)"], ["ARIT", "MMC (calendário maia)"], ["GP", "Teorema de Pitágoras (círculos)"], ["ARIT", "Razão (economia de corrida)"], ["LOG", "Orientação em mapa"], ["ALG", "Sistema linear (tíquetes)"], ["ALG", "Números figurados (padrão)"], ["TRI", "Função periódica (roda-gigante)"], ["ARIT", "Ciclos de tempo (torneira)"], ["ARIT", "Sistema de numeração"], ["EST", "Média de precipitação"]], "2024": [["GE", "Cilindro e folha de alumínio"], ["FUN", "Reta de tendência (receitas)"], ["FUN", "Função afim (custo)"], ["EST", "Média (umidade do ar)"], ["ARIT", "Divisão proporcional"], ["EST", "Combinação (equipe)"], ["EST", "Probabilidade em gráfico"], ["GE", "Trajetória no espaço"], ["GP", "Perímetro e área máxima"], ["ARIT", "Frações do percurso"], ["ARIT", "Micrômetros e ampliação"], ["EST", "Média (erro de divisão)"], ["EST", "Contagem de senhas"], ["EST", "Probabilidade (Cifra de César)"], ["FUN", "Logaritmo (escala Richter)"], ["EST", "Probabilidade (semáforos)"], ["ARIT", "Densidade demográfica"], ["ARIT", "Frações (telas)"], ["ALG", "PG (parcelas com acréscimo)"], ["GP", "Polias e correia"], ["GP", "Pontos equidistantes (postos)"], ["ARIT", "Menor custo (defensivos)"], ["ARIT", "Vazão e tempo"], ["FUN", "Função afim (taxa de entrega)"], ["FUN", "Gráfico volume x tempo"], ["TRI", "Função periódica (amortecedor)"], ["FUN", "Gráfico de nível (tanque)"], ["FUN", "Função quadrática (galinheiro)"], ["ARIT", "Números racionais"], ["FUN", "Função exponencial (temperatura)"], ["GE", "Cilindro e cubo (volume)"], ["EST", "Tabela de tempos (média)"], ["GP", "Setor circular"], ["FUN", "Função afim (aplicativo)"], ["ARIT", "Menor valor total (colunas)"], ["ARIT", "Escala (área da maquete)"], ["EST", "Gráfico de saldo da balança"], ["ARIT", "Taxa percentual"], ["ARIT", "Menor custo (componentes)"], ["ARIT", "Porcentagem (maratona)"], ["FUN", "Gráficos de funções afins"], ["ALG", "Padrão de mensagem"], ["ARIT", "Porcentagem e lucro"], ["GE", "Sólido de revolução"], ["GP", "Área do campo"]], "2025": [["ARIT", "Comparação (sódio)"], ["GE", "Prisma e tronco de pirâmide"], ["FUN", "Gráfico (frequência respiratória)"], ["ARIT", "Diferença de tempos"], ["EST", "Probabilidade em infográfico"], ["ARIT", "Consumo e capacidade"], ["GE", "Projeções ortogonais do cubo"], ["GP", "Circunferência (ciclovia)"], ["ARIT", "Porcentagem de solução"], ["ARIT", "Volume descartado (proporção)"], ["EST", "Mediana"], ["GE", "Poliedro e vértices"], ["ARIT", "Regra de três composta"], ["EST", "Contagem (códigos)"], ["EST", "Probabilidade (celulares)"], ["ARIT", "Porcentagem de matrículas"], ["GA", "Deslocamentos no plano"], ["GP", "Pontos equidistantes"], ["EST", "Gráfico (estoque e demanda)"], ["TRI", "Função tangente"], ["LOG", "Orientação em quarteirões"], ["ARIT", "Porcentagem de custo"], ["EST", "Intervalos de idade"], ["ARIT", "Pace (razão)"], ["EST", "Contagem (diretoria)"], ["ARIT", "Proporção em desenho"], ["ARIT", "Razão (cortisol)"], ["ARIT", "Mensalidade e despesas"], ["ARIT", "Conversão de unidades"], ["EST", "Gráficos de dados incompletos"], ["TRI", "Rota por ângulos"], ["GE", "Volume de paralelepípedo"], ["GE", "Cilindro e prisma"], ["FUN", "Logaritmo (pressão)"], ["EST", "Gráfico de produção"], ["GP", "Áreas (projetos de túnel)"], ["ALG", "Equação (parcelas)"], ["EST", "Contagem (presentes)"], ["ARIT", "Distância e velocidade"], ["GE", "Volume de sólidos (medalha)"], ["EST", "Probabilidade (dados)"], ["ARIT", "Razão (luminância)"], ["ALG", "Padrão (moedas)"], ["ARIT", "Gasto por velocidade"], ["ARIT", "Menor custo (autoescola)"]]};
+const CAD={2020:'amarelo',2021:'cinza',2022:'cinza',2023:'azul',2024:'cinza',2025:'cinza'};const CADC={amarelo:'#ffd23f',cinza:'#c4c7d6',azul:'#4d8dff'};
+const CNT={};YEARS.forEach(y=>{CNT[y]={};Object.keys(NAME).forEach(k=>CNT[y][k]=0);D[y].forEach(q=>CNT[y][q[0]]++)});
+const TOT={};Object.keys(NAME).forEach(k=>TOT[k]=YEARS.reduce((s,y)=>s+CNT[y][k],0));
+const ORDER=Object.keys(NAME).sort((a,b)=>TOT[b]-TOT[a]);
+let selYear='all';
+function renderEnem(){
+ document.getElementById('enem-kpi').innerHTML=[['Questões analisadas','270','45 por edição, de 136 a 180',G.cy],['Edições','6','2020, 2021, 2022, 2023, 2024 e 2025',G.amber],['Blocos de conteúdo','9','Mesma divisão do Tessat',COL.GE],['Mais cobrado',NAME[ORDER[0]],`${TOT[ORDER[0]]} questões · ${pc(TOT[ORDER[0]],270)}`,COL[ORDER[0]]]].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm${k[1].length>4?' txt':''}" style="color:${k[3]};${k[1].length>4?'font-size:20px;line-height:1.2;margin-top:12px':''}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+ document.getElementById('yearchips').innerHTML=['all',...YEARS].map(y=>`<button class="chip" data-y="${y}" aria-pressed="${y==selYear}">${y=='all'?'Acumulado 2020–2025 (270)':y+' · '+CAD[y]+' (45)'}</button>`).join('');
+ document.querySelectorAll('#yearchips .chip').forEach(b=>b.onclick=()=>{selYear=b.dataset.y;renderEnem()});
+ const all=selYear=='all',tot=all?270:45;const val=k=>all?TOT[k]:CNT[selYear][k];
+ document.getElementById('enem-status').textContent=(all?'Acumulado 2020–2025':'Edição '+selYear)+' · '+tot+' questões · '+Object.keys(NAME).filter(k=>val(k)>0).length+' blocos com questões';
+ const ord=Object.keys(NAME).sort((a,b)=>val(b)-val(a)||TOT[b]-TOT[a]);
+ document.getElementById('blocks').innerHTML=ord.map((k,i)=>`<div class="card blk" style="--c:${COL[k]}"><span class="rk">#${i+1}</span><div class="k">${NAME[k]}</div><div class="num" style="color:${COL[k]}">${val(k)}</div><div class="note"><b style="color:var(--fg)">${pc(val(k),tot)}</b> das ${tot} questões</div><div class="bar"><i style="width:${100*val(k)/(all?TOT[ORDER[0]]:Math.max(...Object.keys(NAME).map(z=>CNT[selYear][z])))}%"></i></div><div class="yy">${YEARS.map(y=>`<div><span>${String(y).slice(2)}</span><b>${CNT[y][k]}</b></div>`).join('')}</div><details><summary>Ver as ${all?TOT[k]:CNT[selYear][k]} questões</summary><ul>${YEARS.filter(y=>all||y==selYear).flatMap(y=>D[y].map((q,i)=>q[0]==k?`<li><b>${y} · q${136+i}</b> <span class="cad" style="--k:${CADC[CAD[y]]}">caderno ${CAD[y]}</span> ${q[1]}</li>`:null).filter(Boolean)).join('')}</ul></details></div>`).join('');
+ // cumulativo horizontal
+ {const W=520,rowH=40,H=ORDER.length*rowH+20,ml=150,mr=64;const mx=TOT[ORDER[0]];
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="min-width:420px" role="img" aria-label="Questões por bloco, acumulado">`;
+  ORDER.forEach((k,i)=>{const y=10+i*rowH,w=(W-ml-mr)*TOT[k]/mx;
+   s+=`<text x="${ml-10}" y="${y+21}" text-anchor="end" style="fill:var(--fg)">${NAME[k]}</text><rect class="bar" x="${ml}" y="${y+6}" width="${w}" height="22" rx="5" fill="${COL[k]}" data-tip="${NAME[k]}: ${TOT[k]} questões (${pc(TOT[k],270)})"/><text class="v" x="${ml+w+8}" y="${y+22}">${TOT[k]} · ${pc(TOT[k],270)}</text>`});
+  document.getElementById('ch-cum').innerHTML=`<div class="k" style="margin-bottom:8px">Acumulado, 2020–2025</div>`+s+'</svg>';bindTip(document.getElementById('ch-cum'))}
+ // empilhado por ano
+ {const W=520,H=400,ml=34,mt=14,mb=30,iw=(W-ml-6)/6,bw=iw*.62;
+  let s=`<svg viewBox="0 0 ${W} ${H}" style="min-width:420px" role="img" aria-label="Questões por bloco em cada ano">`;
+  [0,15,30,45].forEach(t=>{const y=mt+(H-mt-mb)*(1-t/45);s+=`<line x1="${ml}" x2="${W-6}" y1="${y}" y2="${y}" stroke="#23232f"/><text x="${ml-6}" y="${y+4}" text-anchor="end">${t}</text>`});
+  YEARS.forEach((yr,i)=>{let acc=0;const cx=ml+iw*i+iw/2;
+   ORDER.slice().reverse().forEach(k=>{const v=CNT[yr][k];if(!v)return;const h=(H-mt-mb)*v/45,y=H-mb-(H-mt-mb)*acc/45-h;acc+=v;
+    s+=`<rect class="bar" x="${cx-bw/2}" y="${y}" width="${bw}" height="${h}" fill="${COL[k]}" stroke="#050507" stroke-width="1" data-tip="${yr} · ${NAME[k]}: ${v} (${pc(v,45)})"/>`;
+    if(h>14)s+=`<text x="${cx}" y="${y+h/2+4}" text-anchor="middle" style="fill:#000;font-weight:800">${v}</text>`});
+   s+=`<text x="${cx}" y="${H-10}" text-anchor="middle" style="fill:var(--fg)">${yr}</text>`});
+  document.getElementById('ch-year').innerHTML=`<div class="k" style="margin-bottom:8px">Distribuição em cada prova (45 questões)</div>`+s+'</svg>';bindTip(document.getElementById('ch-year'))}
+ document.getElementById('lg-enem').innerHTML=ORDER.map(k=>`<span><i style="background:${COL[k]}"></i>${NAME[k]}</span>`).join('');
+ fit();
+}
+
+/* ---------- referências e abas ---------- */
+document.getElementById('refs').innerHTML='<b style="color:var(--fg)">Referências gerais.</b> '+[['INEP, Histórico do Enem','https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/historico'],['Portaria INEP 109/2009','https://download.inep.gov.br/educacao_basica/enem/legislacao/2009/portaria_enem_2009_1.pdf'],['Lei 11.892/2008 (Institutos Federais)','https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html'],['MEC, Expansão da Rede Federal','https://redefederal.mec.gov.br/expansao-da-rede-federal']].map(a=>L(a[1],a[0])).join(' · ')+'. Consultadas em 31/10/2026.';
+const panes=['governos','prouni','fies','enem'];
+function fit(){document.querySelectorAll('.num:not(.txt),.sumc .tot,.sumc .pair2 b').forEach(e=>{e.style.fontSize='';if(!e.offsetParent)return;let fs=parseFloat(getComputedStyle(e).fontSize);while(e.scrollWidth>e.clientWidth+1&&fs>11){fs-=1;e.style.fontSize=fs+'px'}})}
+addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+function show(t){if(!panes.includes(t))t='governos';panes.forEach(p=>document.getElementById('p-'+p).classList.toggle('on',p==t));document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t==t));history.replaceState(null,'','#'+t);fit()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>show(b.dataset.t));
+renderGov();renderSum();renderProuni();renderFies();renderEnem();
+show(location.hash.slice(1));
+addEventListener('hashchange',()=>show(location.hash.slice(1)));
+</script>
+</body>
+</html>
