@@ -93,8 +93,8 @@ body{background:radial-gradient(900px 520px at 6% -4%,rgba(255,59,78,.20),transp
 @keyframes flow{to{background-position:300% 0}}
 @keyframes glow{0%,100%{opacity:.55}50%{opacity:1}}
 .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid #ffffff2a;background:linear-gradient(90deg,#ff3b4e22,#2ec4ff22,#19e07a22);color:#e9e9f5}
-h1{font-size:clamp(28px,6.4vw,58px);font-weight:700;letter-spacing:-.02em;filter:drop-shadow(0 0 20px rgba(46,196,255,.35)) drop-shadow(0 4px 30px rgba(255,59,78,.25))}
-h1 span{background:linear-gradient(90deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff,#ff4d8d,#ff3b4e);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite}
+h1{font-size:clamp(24px,5.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.12;background:linear-gradient(100deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff,#ff4d8d,#ff3b4e);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:flow 9s linear infinite;filter:drop-shadow(0 0 16px rgba(46,196,255,.45)) drop-shadow(0 3px 24px rgba(255,59,78,.35))}
+h1 span{background:none;color:inherit;-webkit-text-fill-color:inherit;animation:none}
 header::after{content:"";display:block;height:4px;width:min(260px,60%);margin-top:18px;border-radius:99px;background:linear-gradient(90deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff);background-size:200% auto;animation:flow 6s linear infinite,glow 3s ease-in-out infinite}
 .card{--c:var(--cy);background:linear-gradient(150deg,color-mix(in srgb,var(--c) 26%,#0c0c13) 0%,#0c0c13 68%);border-color:color-mix(in srgb,var(--c) 55%,#23232f);box-shadow:0 10px 34px -20px var(--c);container-type:normal}
 .card .k{color:var(--c)}
@@ -122,6 +122,31 @@ h3{color:#ffd166}
 .cad{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:1px 9px;border-radius:999px;border:1px solid var(--k);color:var(--k);margin:0 4px}
 .chk{border-color:#ffb020}
 .chk ul.plain li{margin:8px 0}
+
+.gov{padding:0 0 16px}
+.gov .strip{display:block;height:6px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 40%,#fff));margin-bottom:14px}
+.gov .t,.gov .p,.gov .num,.gov small,.gov .mini{display:block;margin-left:18px;margin-right:18px}
+.gov .t{color:var(--c);font-size:18px}
+.gov .num{font-size:46px;color:var(--c);margin-top:10px;margin-bottom:2px;text-shadow:0 0 22px color-mix(in srgb,var(--c) 50%,transparent)}
+.gov small{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#d6d7e8}
+.gov .mini{margin-top:12px;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--c) 30%,transparent);font-size:13px;color:#d6d7e8}
+.gov .mini b{color:var(--c);font:700 16px var(--disp);margin-right:4px}
+.inst .ih{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.inst .sg{font:700 17px var(--disp);color:#000;background:var(--c);padding:5px 12px;border-radius:10px;box-shadow:0 6px 18px -8px var(--c)}
+.inst .nm{font-weight:700;line-height:1.4;color:#fff}
+.inst .tag{background:transparent;border:1px solid;margin-top:0}
+.inst .n{color:var(--c)}
+.hint{font-size:13px;color:#ffd166;margin:0 0 8px;font-weight:700}
+.chart .bar[data-y]:hover,.chart .bar[data-y]:focus-visible{opacity:.85;outline:none;stroke:#fff;stroke-width:2}
+
+#lst{position:fixed;z-index:60;display:none;background:#0c0c13;border:1px solid var(--c,#2ec4ff);border-radius:14px;padding:12px 14px;box-shadow:0 18px 50px -12px #000,0 0 28px -8px var(--c,#2ec4ff);width:min(340px,calc(100vw - 24px));max-height:min(62vh,420px);overflow:auto;font-size:13px;line-height:1.35}
+#lst .lh{font:800 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--c);margin:0 0 8px}
+#lst ul{list-style:none;margin:0;padding:0}
+#lst li{padding:5px 0;border-top:1px solid #ffffff1a;color:#d6d7e8}
+#lst li.gh{font-weight:800;color:var(--c);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;padding-top:10px}
+#lst li b{color:#fff}
+.hv{cursor:help;border-bottom:2px dotted currentColor;display:inline-block;max-width:100%}
+.hv:focus-visible{outline:2px solid #fff;outline-offset:3px}
 @media(max-width:640px){body{background-attachment:scroll}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media(max-width:1100px){.wrap{max-width:100%}}
@@ -129,6 +154,8 @@ h3{color:#ffd166}
 @media(max-width:360px){.grid,.grid.w2{grid-template-columns:minmax(0,1fr)}.gov .pair{gap:14px}.seg{display:flex;width:100%}.seg button{flex:1 1 100%}}
 @page{size:A4;margin:12mm}
 @media print{
+#lst{display:none!important}
+.hv{border:0}
 :root{--bg:#fff;--card:#fff;--card2:#f3f3f6;--line:#c9c9d3;--fg:#111;--mut:#444;--cy:#0a6a99;color-scheme:light}
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{background:#fff;color:#111;padding:0;font-size:11pt}
@@ -144,6 +171,7 @@ a{color:#0a4a75}
 .gov{box-shadow:none!important}
 .card{background:#fff!important;box-shadow:none!important}
 .card .note,.card .src,.card .sub,ul.plain{color:#333}
+h1{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#111;-webkit-text-fill-color:#111;animation:none}
 h2,h1 span,.sumc .tot{background:none;-webkit-background-clip:border-box;background-clip:border-box}
 h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header::after{display:none}
 }
@@ -152,7 +180,7 @@ h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header
 <body>
 <div class="wrap">
 <header>
-<div class="eyebrow">Levantamento com fontes oficiais · 31/10/2026 · Professor Jonh Cleidson</div>
+<div class="eyebrow">Levantamento com fontes oficiais · 31/10/2026</div>
 <h1>ENEM, universidades federais, <span>ProUni e Fies</span></h1>
 <button class="btnp noprint" type="button" onclick="window.print()">🖨️ Imprimir ou salvar em PDF</button>
 <p class="lead" style="margin-top:16px">Quatro painéis: o que cada governo criou em universidades e institutos federais, a evolução do ProUni e do Fies ano a ano e a Matemática das seis últimas provas do ENEM, questão por questão.</p>
@@ -195,9 +223,13 @@ h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header
 <div class="grid w2" id="fies-info"></div>
 <h3>Novos financiamentos por ano e por governo</h3>
 <div class="legend" id="lg-fies"></div>
+<p class="hint">👆 Clique ou toque numa coluna para ver os cards daquele ano.</p>
 <div class="card chart" id="ch-fies"></div>
 <p class="src" id="fies-src"></p>
-<div class="grid" id="fies-kpi" style="margin-top:14px"></div>
+<h3>Cards do ano escolhido no gráfico</h3>
+<div class="grid" id="fies-year"></div>
+<h3>Carteira do Fies em dezembro de 2024, todos os contratos somados</h3>
+<div class="grid" id="fies-kpi"></div>
 </section>
 
 <section class="pane" id="p-enem">
@@ -220,6 +252,7 @@ h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header
 <footer id="refs"></footer>
 </div>
 <div id="tip"></div>
+<div id="lst" role="tooltip"></div>
 
 <script>
 const G={lula:'#ff3b4e',dilma:'#ff3b4e',temer:'#19e07a',bolso:'#2f7bff',cy:'#2ec4ff',green:'#19e07a',amber:'#ffb020'};
@@ -261,31 +294,65 @@ const GOV=[
  ifs:[['Instituto Federal do Sertão Paraibano','Último instituto federal listado no art. 5º da Lei 11.892, que passa a ter 39','Lei 15.367, 30/03/2026']],note:'',
  src:[['Câmara: UF Indígena','https://www.camara.leg.br/noticias/1277738-nova-lei-cria-universidade-federal-indigena-com-sede-em-brasilia/'],['Câmara: UF do Esporte','https://www.camara.leg.br/noticias/1288020-nova-lei-cria-primeira-universidade-federal-dedicada-ao-esporte/'],['Câmara: UF Fronteira Norte','https://www.camara.leg.br/noticias/1306749-lei-cria-a-universidade-federal-da-fronteira-norte-no-amapa'],['Agência Senado: CEFETs','https://www12.senado.leg.br/noticias/materias/2026/09/25/centros-de-educacao-tecnologica-de-mg-e-do-rj-viram-universidades'],['Lei 15.367/2026','https://www2.camara.leg.br/legin/fed/lei/2026/lei-15367-30-marco-2026-798892-publicacaooriginal-178682-pl.html']]}
 ];
+const IF38=["Instituto Federal do Acre", "Instituto Federal de Alagoas", "Instituto Federal do Amapá", "Instituto Federal do Amazonas", "Instituto Federal da Bahia", "Instituto Federal Baiano", "Instituto Federal de Brasília", "Instituto Federal do Ceará", "Instituto Federal do Espírito Santo", "Instituto Federal de Goiás", "Instituto Federal Goiano", "Instituto Federal do Maranhão", "Instituto Federal de Minas Gerais", "Instituto Federal do Norte de Minas Gerais", "Instituto Federal do Sudeste de Minas Gerais", "Instituto Federal do Sul de Minas Gerais", "Instituto Federal do Triângulo Mineiro", "Instituto Federal de Mato Grosso", "Instituto Federal de Mato Grosso do Sul", "Instituto Federal do Pará", "Instituto Federal da Paraíba", "Instituto Federal de Pernambuco", "Instituto Federal do Sertão Pernambucano", "Instituto Federal do Piauí", "Instituto Federal do Paraná", "Instituto Federal do Rio de Janeiro", "Instituto Federal Fluminense", "Instituto Federal do Rio Grande do Norte", "Instituto Federal do Rio Grande do Sul", "Instituto Federal Farroupilha", "Instituto Federal Sul-rio-grandense", "Instituto Federal de Rondônia", "Instituto Federal de Roraima", "Instituto Federal de Santa Catarina", "Instituto Federal Catarinense", "Instituto Federal de São Paulo", "Instituto Federal de Sergipe", "Instituto Federal do Tocantins"];
 const IFN={l1:0,l2:38,d1:0,d2:0,t:0,b:0,l3:1};
 const PRES=[{n:'Lula',c:G.lula,ids:['l1','l2','l3'],p:'2003–2010 e 2023–2026'},{n:'Dilma',c:G.dilma,ids:['d1','d2'],p:'2011 a ago/2016'},{n:'Temer',c:G.temer,ids:['t'],p:'ago/2016 a 2018'},{n:'Bolsonaro',c:G.bolso,ids:['b'],p:'2019–2022'}];
+function listaPres(p,tipo){
+ const out=[];
+ p.ids.forEach(id=>{const g=GOV.find(x=>x.id==id);let it=[];
+  if(tipo=='uf')it=g.uf.map(u=>`<b>${u[0]}</b> ${u[1]}`);
+  else if(id=='l2')it=IF38;
+  else if(id=='l3')it=['Instituto Federal do Sertão Paraibano'];
+  if(it.length){if(p.ids.length>1)out.push(`<li class="gh">${g.n} · ${g.p}</li>`);it.forEach(t=>out.push(`<li>${t}</li>`))}});
+ return out.join('');
+}
+let SUMLIST={};
 function renderSum(){
  const rows=PRES.map(p=>{const uf=p.ids.reduce((a,i)=>a+GOV.find(g=>g.id==i).uf.length,0),ifs=p.ids.reduce((a,i)=>a+IFN[i],0);return{...p,uf,ifs,t:uf+ifs}}).sort((a,b)=>b.t-a.t||b.uf-a.uf);
  const mx=rows[0].t||1;
- document.getElementById('govsum').innerHTML=rows.map((r,i)=>`<div class="card sumc" style="--c:${r.c}"><span class="rk2">${i+1}º lugar</span><div class="nm">${r.n}</div><div class="note">${r.p}</div><span class="tot">${f(r.t)}</span><div class="note">universidades e institutos federais criados</div><div class="bar2"><i style="width:${100*r.t/mx}%"></i></div><div class="pair2"><div><b>${f(r.uf)}</b><small>UF criadas</small></div><div><b>${f(r.ifs)}</b><small>IF criados</small></div></div></div>`).join('');
+ SUMLIST={};
+ rows.forEach(r=>{SUMLIST[r.n+'|uf']={c:r.c,h:`${r.n}: ${r.uf} universidades federais criadas`,b:listaPres(r,'uf')};SUMLIST[r.n+'|if']={c:r.c,h:`${r.n}: ${r.ifs} institutos federais criados`,b:listaPres(r,'if')};
+  SUMLIST[r.n+'|all']={c:r.c,h:`${r.n}: ${r.t} criados (${r.uf} UF e ${r.ifs} IF)`,b:(r.uf?`<li class="gh">Universidades federais</li>`+listaPres(r,'uf'):'')+(r.ifs?`<li class="gh">Institutos federais</li>`+listaPres(r,'if'):'')}});
+ const hv=(r,k,t)=>(k=='uf'?r.uf:k=='if'?r.ifs:r.t)?`<span class="hv" tabindex="0" role="button" data-l="${r.n}|${k}">${t}</span>`:t;
+ document.getElementById('govsum').innerHTML=rows.map((r,i)=>`<div class="card sumc" style="--c:${r.c}"><span class="rk2">${i+1}º lugar</span><div class="nm">${r.n}</div><div class="note">${r.p}</div><span class="tot">${hv(r,'all',f(r.t))}</span><div class="note">universidades e institutos federais criados · passe o mouse nos números para ver a lista</div><div class="bar2"><i style="width:${100*r.t/mx}%"></i></div><div class="pair2"><div><b>${hv(r,'uf',f(r.uf))}</b><small>UF criadas</small></div><div><b>${hv(r,'if',f(r.ifs))}</b><small>IF criados</small></div></div></div>`).join('');
+ bindLst(document.getElementById('govsum'));
  document.getElementById('sumnote').textContent='Total = UF + IF. Não inclui campi novos. Em Lula, os 38 IF de 2008 vêm, em sua maioria, da transformação de CEFETs e escolas agrotécnicas (Lei 11.892/2008), e 2 das UF de 2026 vêm da transformação de CEFETs. Em Temer, as 3 UF nasceram por desmembramento. Dilma 01 e Dilma 02 foram somados.';
 }
+const lst=document.getElementById('lst');let lstT=null,lstEl=null;
+function lstShow(el){clearTimeout(lstT);const d=SUMLIST[el.dataset.l];if(!d)return;lstEl=el;lst.style.setProperty('--c',d.c);lst.innerHTML=`<div class="lh">${d.h}</div><ul>${d.b}</ul>`;lst.style.display='block';lst.scrollTop=0;
+ const r=el.getBoundingClientRect(),w=lst.offsetWidth,h=lst.offsetHeight;
+ let x=Math.min(Math.max(12,r.left),innerWidth-w-12),y=r.bottom+8;if(y+h>innerHeight-8)y=Math.max(8,r.top-h-8);
+ lst.style.left=x+'px';lst.style.top=y+'px'}
+function lstHide(){lstT=setTimeout(()=>{lst.style.display='none';lstEl=null},180)}
+function bindLst(root){root.querySelectorAll('.hv').forEach(e=>{e.onmouseenter=()=>lstShow(e);e.onmouseleave=lstHide;e.onfocus=()=>lstShow(e);e.onblur=lstHide;e.onclick=ev=>{ev.stopPropagation();if(lstEl===e&&lst.style.display=='block'){lst.style.display='none';lstEl=null}else lstShow(e)}})}
+lst.onmouseenter=()=>clearTimeout(lstT);lst.onmouseleave=lstHide;
+addEventListener('click',e=>{if(!lst.contains(e.target)){lst.style.display='none';lstEl=null}});
+addEventListener('scroll',()=>{if(lstEl&&lst.style.display=='block')lstShow(lstEl)},{passive:true});
 let selGov='l1',selKind='uf';
+function tagCor(t){return /nova/i.test(t)?'#19e07a':/transforma/i.test(t)?'#ffb020':/desmembr/i.test(t)?'#ff4d8d':'#2ec4ff'}
+function ifIntro(){return `<div class="grid w2" style="margin-bottom:18px">
+<div class="card big" style="--c:#ffb020"><div class="k">Por que não há Lula 01 nesta lista</div><p style="margin:8px 0 0">Os institutos federais só foram criados em <b style="color:#ffb020">2008</b>, pela ${L('https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html','Lei 11.892, de 29/12/2008')}, no segundo mandato de Lula. Por isso <b>Lula 01 (2003–2006)</b> não aparece aqui.</p></div>
+<div class="card big" style="--c:#2ec4ff"><div class="k">Antes eram Escolas Técnicas Federais</div><p style="margin:8px 0 0">Antes de 2008, a rede federal era formada por Escolas Técnicas Federais, CEFETs, Escolas Agrotécnicas Federais e escolas técnicas ligadas a universidades. A Lei 11.892 transformou ou integrou essas instituições em 38 institutos federais. Em 2003 havia <b style="color:#2ec4ff">141 escolas técnicas federais</b>, construídas entre 1909 e 2002 (${L('https://www.aosfatos.org/noticias/checamos-entrevista-lula-ao-flow/','Aos Fatos')}).</p></div>
+<div class="card big" style="--c:#ff4d8d"><div class="k">Governo FHC (1995–2002) e as escolas técnicas</div><p style="margin:8px 0 0">A ${L('https://www.planalto.gov.br/ccivil_03/leis/l9649cons.htm','Lei 9.649, de 27/05/1998')} acrescentou à Lei 8.948/1994 o § 5º: a expansão da educação profissional pela União "somente poderá ocorrer em parceria com Estados, Municípios, Distrito Federal, setor produtivo ou organizações não-governamentais, que serão responsáveis pela manutenção e gestão dos novos estabelecimentos de ensino". Em nota na ${L('https://www.camara.leg.br/noticias/100494-educacao-aprova-criacao-de-escolas-tecnicas-federais','Agência Câmara')}, o MEC argumentou que, desde 1998, a União estava impedida de criar novas unidades.</p><p class="note" style="margin:10px 0 0"><b style="color:#ffd166">Não verificado:</b> não encontrei fonte segura em que FHC chame as escolas técnicas de "elefante branco" ou proponha fechá-las. Por isso a expressão não entra como citação.</p></div></div>`}
 function renderGov(){
+ if(selKind=='if'&&selGov=='l1')selGov='l2';
+ const isIf=selKind=='if',list=isIf?GOV.filter(y=>y.id!='l1'):GOV;
  const g=document.getElementById('govgrid');
- g.innerHTML=GOV.map(x=>`<button class="card gov" style="--c:${x.c}" data-g="${x.id}" aria-pressed="${x.id==selGov}"><div class="t"><span class="dot"></span>${x.n}</div><div class="p">${x.p}</div><div class="pair"><div><b>${x.uf.length}</b><small>UF criadas</small></div><div><b>${IFN[x.id]}</b><small>IF criados</small></div></div></button>`).join('');
+ g.innerHTML=list.map(x=>{const a=isIf?IFN[x.id]:x.uf.length,b=isIf?x.uf.length:IFN[x.id];return `<button class="card gov" style="--c:${x.c}" data-g="${x.id}" aria-pressed="${x.id==selGov}"><span class="strip"></span><span class="t">${x.n}</span><span class="p">${x.p}</span><span class="num">${a}</span><small>${isIf?'IF criados':'UF criadas'}</small><span class="mini"><b>${b}</b>${isIf?'UF criadas':'IF criados'}</span></button>`}).join('');
  g.querySelectorAll('.gov').forEach(b=>b.onclick=()=>{selGov=b.dataset.g;renderGov()});
  const x=GOV.find(y=>y.id==selGov);
  document.getElementById('kind').style.setProperty('--c',x.c);
  document.getElementById('kind').innerHTML=`<button data-k="uf" aria-pressed="${selKind=='uf'}">Universidades federais criadas</button><button data-k="if" aria-pressed="${selKind=='if'}">Institutos federais criados</button>`;
  document.querySelectorAll('#kind button').forEach(b=>b.onclick=()=>{selKind=b.dataset.k;renderGov()});
  let h='';
- if(selKind=='uf'){
+ if(!isIf){
   h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${x.uf.length}</div><div class="note">universidades federais criadas</div></div>`;
-  h+=x.uf.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag">${i[2]}</span></div>`).join('')+'</div>';
+  h+=x.uf.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="ih"><span class="sg">${i[0]}</span><span class="tag" style="color:${tagCor(i[2])};border-color:${tagCor(i[2])}">${i[2]}</span></div><div class="nm">${i[1]}</div></div>`).join('')+'</div>';
   if(!x.uf.length)h+=`<div class="empty">${x.ufnote}</div>`;
  }else{
+  h+=ifIntro();
   h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${IFN[x.id]}</div><div class="note">institutos federais criados</div></div>`;
-  h+=x.ifs.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag">${i[2]}</span></div>`).join('')+'</div>';
+  h+=x.ifs.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag" style="margin-top:10px;color:${tagCor(i[2])};border-color:${tagCor(i[2])}">${i[2]}</span></div>`).join('')+'</div>';
   if(!x.ifs.length)h+=`<div class="empty">${x.ifnote}</div>`;
   else if(x.ifnote)h+=`<p class="src">${x.ifnote}</p>`;
  }
@@ -306,10 +373,11 @@ function cols(el,items,o){
   if(it.v==null){s+=`<text x="${cx}" y="${H-mb-8}" text-anchor="middle" style="opacity:.55">s/d</text>`}
   else{const h=(H-mt-mb)*it.v/top,y=H-mb-h;
    const st=it.ghost?`fill="${it.c}" fill-opacity=".14" stroke="${it.c}" stroke-dasharray="4 3" stroke-width="1.5"`:`fill="${it.c}"`;
-   s+=`<rect class="bar" x="${cx-bw/2}" y="${y}" width="${bw}" height="${h}" rx="4" ${st} data-tip="${it.tip}"/>`;
+   s+=`<rect class="bar" x="${cx-bw/2}" y="${y}" width="${bw}" height="${h}" rx="4" ${st} data-tip="${it.tip}"${o.onSel?` data-y="${it.l}" tabindex="0" role="button" style="cursor:pointer" aria-label="Ano ${it.l}: ver os detalhes"`:''}${o.onSel&&o.sel==it.l?' stroke="#fff" stroke-width="3"':''}/>`;
    s+=`<text class="v" x="${cx}" y="${y-6}" text-anchor="middle">${f(it.v)}${it.ghost?"*":""}</text>`}
   s+=`<text x="${cx}" y="${H-mb+18}" text-anchor="middle">${it.l}</text>`});
  el.innerHTML=s+'</svg>';bindTip(el);
+ if(o.onSel)el.querySelectorAll('.bar[data-y]').forEach(b=>{const go=()=>o.onSel(+b.dataset.y);b.onclick=go;b.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();go()}}});
 }
 function legend(el,extra){el.innerHTML=[['Lula e Dilma',G.lula],['Temer',G.temer],['Bolsonaro',G.bolso]].map(a=>`<span><i style="background:${a[1]}"></i>${a[0]}</span>`).join('')+(extra||'')}
 
@@ -320,9 +388,10 @@ function renderProuni(){
  <ul class="plain">
  <li><b style="color:#fff">O que a fonte diz.</b> A ${L('https://www12.senado.leg.br/noticias/infomaterias/2025/05/bolsa-do-prouni-inclui-ha-20-anos-aluno-de-baixa-renda-na-universidade','Agência Senado (16/05/2025)')} fala em "quase 616 mil bolsistas" em 2019 e "perto de 404 mil bolsas concedidas" em 2023. A reportagem não cita a base oficial. Não consegui confirmar o número em dado aberto do MEC, por isso ele <b style="color:#ffb020">não entra</b> nas barras.</li>
  <li><b style="color:#fff">Que tipo de número é.</b> 616 mil é muito acima das 240 mil bolsas ocupadas por ano da série oficial. Só se explica como total de bolsistas ativos, que soma turmas de vários anos (cursos de 4 a 6 anos), e não como bolsas do ano de 2019.</li>
- <li><b style="color:#fff">De quem é a política.</b> Na série oficial, a expansão que levou o programa ao topo foi de 2014–2015, no governo Dilma: 223,4 mil e 252,7 mil bolsas ocupadas, o maior valor da série. Em 2016 e 2017, já sob Temer, foram 238,9 mil e 240,6 mil. Em 2019, o MEC ofertou o recorde de 413 mil bolsas.</li>
+ <li><b style="color:#fff">De quem é a política.</b> Na série oficial, a expansão que levou o programa ao topo foi de 2014–2015, no governo Dilma: 223,4 mil e 252,7 mil bolsas ocupadas, o maior valor da série. Em 2016 e 2017, já sob Temer, foram 238,9 mil e 240,6 mil. Em 2019, o MEC ofertou 413 mil bolsas, e a edição 2019/1, com 243.888, foi a maior até então.</li>
  <li><b style="color:#fff">Conclusão.</b> Os dados mostram que o pico de ingressos foi na gestão Dilma e que o estoque de 2019 vem de turmas de 2015 em diante. Eles <b style="color:#ffb020">não sustentam</b> atribuir os 616 mil só à Dilma, porque parte dessas turmas entrou com Temer, e ainda falta saber a base do número.</li>
  <li><b style="color:#fff">A queda sob Bolsonaro.</b> 2020 foi alto (271.747 ocupadas). A queda vem em 2021: oferta −29,4%, 60,3% sem ocupar (recorde) e ≈ 117 mil bolsas ocupadas, −57% sobre 2020. A ociosidade seguiu em 70% e 77% em 2022. Parte do período coincide com a pandemia, e o artigo da SciELO não isola o efeito de política.</li>
+ <li><b style="color:#fff">Anos sem total oficial.</b> Não consegui abrir os arquivos anuais dos dados abertos do MEC (2018, 2019 e 2022). As estimativas multiplicam a oferta de cada semestre pela taxa de bolsas ocupadas da tabela de ociosidade da SESu/MEC divulgada pela imprensa. São aproximações, não totais oficiais.</li>
  </ul>`;
  document.getElementById('prouni-info').innerHTML=`
  <div class="card big"><div class="k">O que é</div><p style="margin:8px 0 0">Programa do governo federal criado pela Lei 11.096, de 13/01/2005 (primeiro governo Lula). Dá bolsa de estudo de 100%, 50% ou 25% da mensalidade em instituições privadas de ensino superior. <b>O aluno não precisa devolver.</b></p></div>
@@ -330,19 +399,23 @@ function renderProuni(){
  <div class="card big"><div class="k">Papel do ENEM</div><p style="margin:8px 0 0">A seleção usa o resultado do ENEM e o perfil socioeconômico (art. 3º da lei). A Agência Senado informa mínimo de 450 pontos e redação diferente de zero; esse piso vem de normas do MEC e muda por edital.</p></div>`;
  const arr=[];for(let y=2005;y<=2023;y++){const r=PROUNI.find(a=>a[0]==y);
   if(r)arr.push({l:y,v:r[1],c:govOf(y)[1],tip:`${y} · ${govOf(y)[0]} · ${f(Math.round(r[1]*1000))} bolsas ocupadas`});
+  else if(y==2019)arr.push({l:y,v:222.7,c:G.bolso,ghost:1,tip:'2019 · Bolsonaro · ≈ 223 mil bolsas ocupadas (estimativa: 243.888 × 58% + 169.226 × 48%)'});
   else if(y==2021)arr.push({l:y,v:117.1,c:G.bolso,ghost:1,tip:'2021 · Bolsonaro · ≈ 117 mil bolsas ocupadas (cálculo: 294,9 mil ofertadas × 39,7% ocupadas)'});
   else if(y==2023)arr.push({l:y,v:404,c:G.lula,ghost:1,tip:'2023 · Lula · perto de 404 mil bolsas concedidas (Agência Senado; outra métrica)'});
   else arr.push({l:y,v:null,c:govOf(y)[1]})}
  cols(document.getElementById('ch-prouni'),arr,{unit:'mil bolsas',step:100,label:'Bolsas ocupadas do ProUni por ano'});
- legend(document.getElementById('lg-prouni'),'<span><i style="background:none;border:1.5px dashed #9a9ab0"></i>* Tracejado: valor calculado (2021) ou de outra métrica (2023), não comparável direto com as barras cheias</span><span>s/d: série anual aberta não localizada (inclui 2019 e 2022)</span>');
- document.getElementById('prouni-src').innerHTML='Barras cheias, 2005–2017: bolsas ocupadas, Tabela 2 do artigo do '+L('https://publicacoes.tesouro.gov.br/index.php/cadernos/article/download/157/155/647','Cadernos de Finanças Públicas (Tesouro Nacional)')+', com dados da Receita Federal e do MEC. 2020: '+L('https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/ce/apresentacoes-em-eventos/apresentacoes-audiencias-2021/arquivos-2021/RelatrioSumarizadodeAesdaSESu1.pdf','Relatório da SESu/MEC na Câmara')+' (168.210 no 1º semestre + 103.537 no 2º). 2021, tracejado: cálculo próprio com os dados da '+L('https://www.scielo.br/j/ep/a/zwNbPvghRkKBMczcFSMvNkR/?lang=pt','revista Educação e Pesquisa (SciELO)')+': 294,9 mil bolsas ofertadas e 60,3% sem ocupar, recorde. 2023, tracejado: '+L('https://www12.senado.leg.br/noticias/infomaterias/2025/05/bolsa-do-prouni-inclui-ha-20-anos-aluno-de-baixa-renda-na-universidade','Agência Senado, 2025')+' (bolsas concedidas, outra métrica). 2016 foi colorido como Temer, ano de transição de governo.';
+ legend(document.getElementById('lg-prouni'),'<span><i style="background:none;border:1.5px dashed #9a9ab0"></i>* Tracejado: valor calculado (2019 e 2021) ou de outra métrica (2023), não comparável direto com as barras cheias</span><span>s/d: 2018 e 2022 têm dado de só um semestre (veja os cards)</span>');
+ document.getElementById('prouni-src').innerHTML='Barras cheias, 2005–2017: bolsas ocupadas, Tabela 2 do artigo do '+L('https://publicacoes.tesouro.gov.br/index.php/cadernos/article/download/157/155/647','Cadernos de Finanças Públicas (Tesouro Nacional)')+', com dados da Receita Federal e do MEC. 2020: '+L('https://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/ce/apresentacoes-em-eventos/apresentacoes-audiencias-2021/arquivos-2021/RelatrioSumarizadodeAesdaSESu1.pdf','Relatório da SESu/MEC na Câmara')+' (168.210 no 1º semestre + 103.537 no 2º). 2021, tracejado: cálculo próprio com os dados da '+L('https://www.scielo.br/j/ep/a/zwNbPvghRkKBMczcFSMvNkR/?lang=pt','revista Educação e Pesquisa (SciELO)')+': 294,9 mil bolsas ofertadas e 60,3% sem ocupar, recorde. 2023, tracejado: '+L('https://www12.senado.leg.br/noticias/infomaterias/2025/05/bolsa-do-prouni-inclui-ha-20-anos-aluno-de-baixa-renda-na-universidade','Agência Senado, 2025')+' (bolsas concedidas, outra métrica). 2016 foi colorido como Temer, ano de transição de governo. 2019, tracejado: estimativa própria com a oferta das duas edições ('+L('https://abmes.org.br/noticias/detalhe/3188/prouni-2019-abre-inscricoes-para-numero-recorde-de-bolsas-de-estudos','MEC via ABMES')+' e '+L('https://agenciabrasil.ebc.com.br/educacao/noticia/2019-06/prouni-ofertara-1692-mil-bolsas-de-estudo-inscricoes-comecam-amanha','Agência Brasil')+') e a ociosidade por semestre da SESu/MEC, na reportagem do '+L('https://www.gcnoticias.com.br/educacao/prouni-tem-85-de-ociosidade-em-2024-e-acumula-2-5-milhoes-de-bolsas-nao-preenchidas-em-12-anos/206289224','GC Notícias')+'. 2022/1: oferta de 273.001 bolsas ('+L('https://portalbrasil.com.br/consulta-de-bolsas-prouni-2022/','Portal Brasil')+').';
  document.getElementById('prouni-kpi').innerHTML=[
   ['Maior ano 2005–2017','252,7 mil','2015 · Dilma · bolsas ocupadas',G.dilma],
   ['2020 · Bolsonaro','271.747','bolsas ocupadas (168.210 + 103.537), MEC/SESu',G.bolso],
   ['2021 · Bolsonaro','≈ 117 mil','queda de ≈ 57% sobre 2020 (cálculo próprio)',G.bolso],
   ['Oferta de 2021','294,9 mil','queda de 29,4% sobre 2020 (≈ 417 mil); 60,3% sem ocupar, recorde',G.bolso],
   ['Ociosidade em 2022','70% e 77%','1º e 2º semestres, tabela da SESu/MEC divulgada pelo GC Notícias',G.bolso],
-  ['Oferta de 2019','413.114','243.888 em 2019/1 (recorde) + 169.226 em 2019/2, MEC',G.bolso],
+  ['Oferta de 2019','413.114','243.888 em 2019/1 (a maior edição até então) + 169.226 em 2019/2, MEC',G.bolso],
+  ['2019 · estimativa','≈ 223 mil','ocupadas: 243.888 × 58% + 169.226 × 48% (ociosidade de 42% e 52%)',G.bolso],
+  ['2018/2 · só um semestre','≈ 97,6 mil','ocupadas: 174.289 ofertadas × 56% (ociosidade de 44%)',G.bolso],
+  ['2022/1 · só um semestre','≈ 81,9 mil','ocupadas: 273.001 ofertadas × 30% (ociosidade de 70%)',G.bolso],
   ['Bolsas ocupadas, 2005–2017','≈ 2,2 milhões','Soma da Tabela 2 do Tesouro Nacional',G.green],
   ['Bolsas ocupadas, 2005–2021','2.978.686','Total do MEC: 2.093.743 integrais e 884.943 parciais',G.cy],
   ['Estudantes em 20 anos','≈ 3,5 milhões','73% com bolsa integral (Agência Senado, 2025)',G.lula]
@@ -351,22 +424,46 @@ function renderProuni(){
 
 /* ---------- Fies ---------- */
 const FIES=[[2010,76],[2011,154],[2012,377],[2013,560],[2014,733],[2015,287],[2016,203],[2017,175],[2018,83],[2019,85],[2020,53],[2021,45],[2022,50]];
+let selFies=null;
+const EXACT={2010:76039,2011:154367,2012:377895,2013:559879,2014:732593,2015:287417};
+const FMARCO={2010:'Os resultados do ENEM passam a ser adotados pelo Fies (INEP).',2014:'Pico da série: 732.593 novos contratos.',2015:'A partir de 2015, o programa passa por ajustes e enxugamentos, e os novos contratos caem.',2017:'Lei 13.530, de 07/12/2017: Comitê Gestor, fundo garantidor (FG-Fies) e financiamento de cursos técnicos e pós-graduação.',2018:'Começa o Novo Fies: os contratos de 2018 em diante seguem o cronograma da Caixa.',2022:'Lei 14.375/2022: a renda familiar por pessoa passa a entrar na seleção.'};
+const valOf=y=>EXACT[y]||FIES.find(a=>a[0]==y)[1]*1000;
+function renderFiesChart(){
+ const arr=FIES.map(([y,v])=>({l:y,v,c:govOf(y)[1],tip:`${y} · ${govOf(y)[0]} · ${f(valOf(y))} novos financiamentos. Clique para ver os detalhes`}));
+ cols(document.getElementById('ch-fies'),arr,{unit:'mil contratos',step:200,label:'Novos financiamentos do Fies por ano',sel:selFies,onSel:y=>{selFies=y;renderFiesChart();renderFiesYear();fit()}});
+}
+function renderFiesYear(){
+ const el=document.getElementById('fies-year');
+ if(selFies==null){el.innerHTML=`<div class="card big" style="--c:#2ec4ff;grid-column:1/-1"><div class="k">Como usar</div><p style="margin:8px 0 0;color:#d6d7e8">Escolha uma coluna do gráfico acima. Os cards mostram, para aquele ano: novos contratos, governo, variação sobre o ano anterior, posição na série, total acumulado e o marco legal.</p></div>`;return}
+ const y=selFies,i=FIES.findIndex(a=>a[0]==y),[gn,gc]=govOf(y),val=valOf(y),ex=!!EXACT[y];
+ const prev=i?valOf(FIES[i-1][0]):null,d=prev==null?null:(val-prev)/prev;
+ const rank=[...FIES].sort((a,b)=>valOf(b[0])-valOf(a[0])).findIndex(a=>a[0]==y)+1;
+ const peak=Math.max(...FIES.map(a=>valOf(a[0]))),acc=FIES.slice(0,i+1).reduce((a,b)=>a+valOf(b[0]),0),tot=FIES.reduce((a,b)=>a+valOf(b[0]),0);
+ const sg=d==null?'':(d>=0?'+':'−');
+ const cards=[
+  ['Novos contratos em '+y,f(val),ex?'valor exato (Seae, Ministério da Fazenda)':'em milhares, lido no gráfico da Caixa',gc,0],
+  ['Governo no ano',gn,'ano '+y+(y==2016?' (transição)':''),gc,1],
+  ['Variação sobre '+(y-1),d==null?'—':sg+(100*Math.abs(d)).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%',d==null?'primeiro ano da série':f(prev)+' → '+f(val),d==null||d>=0?'#19e07a':'#ff4d8d',0],
+  ['Posição na série',rank+'º','de '+FIES.length+' anos · '+pc(val,peak)+' do pico (2014)','#ffb020',0],
+  ['Acumulado desde 2010',f(acc),pc(acc,tot)+' do total de 2010–2022 (≈ '+f(tot)+')','#2ec4ff',0]
+ ].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm${k[4]?' txt':''}" style="color:${k[3]}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('');
+ el.innerHTML=cards+`<div class="card" style="--c:#b86bff"><div class="k">Marco do ano</div><p style="margin:8px 0 0;color:#d6d7e8">${FMARCO[y]||'Nenhum marco legal registrado neste painel para '+y+'.'}</p></div>`;
+}
 function renderFies(){
  document.getElementById('fies-info').innerHTML=`
  <div class="card big"><div class="k">O que é</div><p style="margin:8px 0 0">Fundo contábil do MEC, criado pela Lei 10.260, de 12/07/2001, que financia até 100% dos encargos educacionais em cursos superiores não gratuitos. <b>É empréstimo: o estudante paga depois.</b> Os contratos ativos estão em utilização, carência ou pagamento (amortização).</p></div>
  <div class="card big"><div class="k">Condições</div><ul class="plain"><li>Curso com avaliação positiva: conceito 3 ou mais no Sinaes.</li><li>Prioridade a quem não concluiu o ensino superior e não teve financiamento anterior.</li><li>Desde 2010, o INEP informa que os resultados do ENEM passaram a ser adotados pelo Fies.</li></ul></div>
  <div class="card big"><div class="k">Marcos legais</div><ul class="plain"><li>Lei 10.260/2001: criação.</li><li>Lei 13.530, de 07/12/2017: Comitê Gestor, fundo garantidor (FG-Fies) e financiamento de cursos técnicos e pós-graduação.</li><li>Lei 14.375/2022: renda familiar por pessoa passa a entrar na seleção.</li></ul></div>`;
- const arr=FIES.map(([y,v])=>({l:y,v,c:govOf(y)[1],tip:`${y} · ${govOf(y)[0]} · ${f(v*1000)} novos financiamentos`}));
- cols(document.getElementById('ch-fies'),arr,{unit:'mil contratos',step:200,label:'Novos financiamentos do Fies por ano'});
+ renderFiesChart();renderFiesYear();
  legend(document.getElementById('lg-fies'));
  document.getElementById('fies-src').innerHTML='2010–2015: '+L('https://www.gov.br/fazenda/pt-br/central-de-conteudo/publicacoes/boletim-de-avaliacao-de-politicas-publicas/arquivos/2017/diagnostico-fies-junho-2017','Diagnóstico Fies, Seae/Ministério da Fazenda, 2017')+' (76.039, 154.367, 377.895, 559.879, 732.593 e 287.417). 2016–2022: gráfico de novos contratos da '+L('https://abmes.org.br/arquivos/documentos/Jornada_Digital_FIES%20digital%20-%20ABMES.pdf','Caixa, setembro de 2024')+', em milhares; a '+L('https://epaa.asu.edu/index.php/epaa/article/download/9091/3561','série de Ikuta e Barreyro (2025), com dados do FNDE')+' dá valores iguais ou 1 mil acima para 2016–2021. A correspondência ano a ano foi feita pela ordem das barras. 2016 foi colorido como Temer, ano de transição.';
  document.getElementById('fies-kpi').innerHTML=[
-  ['Pico de novos contratos','733 mil','2014 · Dilma',G.dilma],
-  ['Menor valor da série','45 mil','2021 · Bolsonaro',G.bolso],
-  ['Contratos ativos, dez/2024','2.296.531','FNDE, Relatório de Gestão 2024',G.cy],
-  ['Em pagamento','2.088.798','207.196 em utilização e 537 em carência',G.green],
-  ['Vagas aprovadas para 2024','112.168','FNDE, Relatório de Gestão 2024',G.amber]
- ].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm" style="color:${k[3]}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('')+`<div class="card"><div class="k">Fontes</div><div class="note" style="margin-top:8px">${L('https://www.gov.br/fnde/pt-br/acesso-a-informacao/transparencia-e-prestacao-de-contas/relatorio-de-gestao-1/relatorio-de-gestao-2024/desempenho-da-gestao/areas-finalisticas/fies','FNDE, Relatório de Gestão 2024')} · ${L('https://www2.camara.leg.br/legin/fed/lei/2001/lei-10260-12-julho-2001-329619-normaatualizada-pl.html','Lei 10.260/2001')}</div></div>`;
+  ['Contratos ativos','2.296.531','todos os contratos vigentes em dez/2024, de qualquer ano de assinatura (FNDE)',G.cy],
+  ['Em pagamento','2.088.798','já formados, amortizando a dívida',G.green],
+  ['Em utilização','207.196','estudantes ainda cursando',G.amber],
+  ['Em carência','537','período entre a formatura e o início do pagamento',G.mag||'#ff4d8d'],
+  ['Vagas aprovadas para 2024','112.168','FNDE, Relatório de Gestão 2024','#b86bff']
+ ].map(k=>`<div class="card" style="--c:${k[3]}"><div class="k">${k[0]}</div><div class="num sm" style="color:${k[3]}">${k[1]}</div><div class="note">${k[2]}</div></div>`).join('')+`<div class="card" style="--c:#2ec4ff"><div class="k">Fontes</div><div class="note" style="margin-top:8px">${L('https://www.gov.br/fnde/pt-br/acesso-a-informacao/transparencia-e-prestacao-de-contas/relatorio-de-gestao-1/relatorio-de-gestao-2024/desempenho-da-gestao/areas-finalisticas/fies','FNDE, Relatório de Gestão 2024')} · ${L('https://www2.camara.leg.br/legin/fed/lei/2001/lei-10260-12-julho-2001-329619-normaatualizada-pl.html','Lei 10.260/2001')}</div></div>`;
 }
 
 /* ---------- ENEM ---------- */
