@@ -195,16 +195,13 @@ h2{color:#111}h3{color:#7a4b00}h1{filter:none}.sumc .tot{text-shadow:none}header
 </div></nav>
 
 <section class="pane" id="p-governos">
-<h2>O que cada governo criou</h2>
-<p class="sub">Escolha um governo. Em seguida, veja as universidades federais (UF) ou os institutos federais (IF) criados no período.</p>
-<div class="grid" id="govgrid"></div>
-<div style="margin:26px 0 14px" class="seg" id="kind"></div>
-<div id="govout"></div>
-<p class="src" id="govnote"></p>
-<h3>Somatório por presidente, do 1º ao último</h3>
-<p class="sub">Soma das universidades federais (UF) e dos institutos federais (IF) criados em todos os mandatos de cada presidente. Vermelho: Lula e Dilma. Verde: Temer. Azul: Bolsonaro.</p>
+<h2>Somatório por presidente, do 1º ao último</h2>
+<p class="sub">Soma das universidades federais (UF) e dos institutos federais (IF) criados em todos os mandatos de cada presidente. Vermelho: Lula e Dilma. Verde: Temer. Azul: Bolsonaro. Passe o mouse (ou toque) nos números para ver a lista do que foi criado.</p>
 <div class="grid" id="govsum"></div>
 <p class="src" id="sumnote"></p>
+<h3>Antes dos institutos federais</h3>
+<div id="ifhist"></div>
+<p class="src" id="govnote"></p>
 </section>
 
 <section class="pane" id="p-prouni">
@@ -355,33 +352,14 @@ addEventListener('scroll',()=>{if(lstEl&&lst.style.display=='block')lstShow(lstE
 let selGov='l1',selKind='uf';
 function tagCor(t){return /nova/i.test(t)?'#19e07a':/transforma/i.test(t)?'#ffb020':/desmembr/i.test(t)?'#ff4d8d':'#2ec4ff'}
 function ifIntro(){return `<div class="grid w2" style="margin-bottom:18px">
-<div class="card big" style="--c:#ffb020"><div class="k">Por que não há Lula 01 nesta lista</div><p style="margin:8px 0 0">Em <b>Lula 01 (2003–2006)</b> os institutos federais ainda não existiam: a rede era formada por CEFETs, Escolas Técnicas Federais e Escolas Agrotécnicas Federais. Essas instituições só viraram <b style="color:#ffb020">Institutos Federais em 29/12/2008</b>, pela ${L('https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html','Lei 11.892')}, no segundo mandato de Lula.</p></div>
+<div class="card big" style="--c:#ffb020"><div class="k">Por que Lula 01 não tem institutos federais</div><p style="margin:8px 0 0">Em <b>Lula 01 (2003–2006)</b> os institutos federais ainda não existiam: a rede era formada por CEFETs, Escolas Técnicas Federais e Escolas Agrotécnicas Federais. Essas instituições só viraram <b style="color:#ffb020">Institutos Federais em 29/12/2008</b>, pela ${L('https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html','Lei 11.892')}, no segundo mandato de Lula.</p></div>
 <div class="card big" style="--c:#2ec4ff"><div class="k">Antes eram CEFETs e Escolas Técnicas Federais</div><p style="margin:8px 0 0">Antes de 2008, a rede federal era formada por Escolas Técnicas Federais, CEFETs (Centros Federais de Educação Tecnológica), Escolas Agrotécnicas Federais e escolas técnicas ligadas a universidades. A Lei 11.892 transformou ou integrou essas instituições em 38 institutos federais. Em 2003 havia <b style="color:#2ec4ff">141 escolas técnicas federais</b>, construídas entre 1909 e 2002 (${L('https://www.aosfatos.org/noticias/checamos-entrevista-lula-ao-flow/','Aos Fatos')}).</p></div>
 <div class="card big" style="--c:#ff4d8d"><div class="k">Governo FHC (1995–2002): o que propunha para as escolas técnicas</div><ul class="plain"><li>${L('https://www.planalto.gov.br/ccivil_03/decreto/d2208.htm','Decreto 2.208, de 17/04/1997')}: a educação profissional de nível técnico passa a ter "organização curricular própria e independente do ensino médio" (art. 5º). O decreto foi revogado pelo ${L('https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/decreto/d5154.htm','Decreto 5.154/2004')}.</li><li>${L('https://www.planalto.gov.br/ccivil_03/leis/l9649cons.htm','Lei 9.649, de 27/05/1998')}: acrescentou à Lei 8.948/1994 o § 5º, pelo qual a expansão da educação profissional pela União "somente poderá ocorrer em parceria com Estados, Municípios, Distrito Federal, setor produtivo ou organizações não-governamentais, que serão responsáveis pela manutenção e gestão dos novos estabelecimentos de ensino".</li><li>Em nota na ${L('https://www.camara.leg.br/noticias/100494-educacao-aprova-criacao-de-escolas-tecnicas-federais','Agência Câmara')}, o MEC argumentou que, desde 1998, a União estava impedida de criar novas unidades.</li></ul></div></div>`}
 function renderGov(){
- if(selKind=='if'&&selGov=='l1')selGov='l2';
- const isIf=selKind=='if',list=isIf?GOV.filter(y=>y.id!='l1'):GOV;
- const g=document.getElementById('govgrid');
- g.innerHTML=list.map(x=>{const a=isIf?IFN[x.id]:x.uf.length,b=isIf?x.uf.length:IFN[x.id];return `<button class="card gov" style="--c:${x.c}" data-g="${x.id}" aria-pressed="${x.id==selGov}"><span class="strip"></span><span class="t">${x.n}</span><span class="p">${x.p}</span><span class="num">${a}</span><small>${isIf?'IF criados':'UF criadas'}</small><span class="mini"><b>${b}</b>${isIf?'UF criadas':'IF criados'}</span></button>`}).join('');
- g.querySelectorAll('.gov').forEach(b=>b.onclick=()=>{selGov=b.dataset.g;renderGov()});
- const x=GOV.find(y=>y.id==selGov);
- document.getElementById('kind').style.setProperty('--c',x.c);
- document.getElementById('kind').innerHTML=`<button data-k="uf" aria-pressed="${selKind=='uf'}">Universidades federais criadas</button><button data-k="if" aria-pressed="${selKind=='if'}">Institutos federais criados</button>`;
- document.querySelectorAll('#kind button').forEach(b=>b.onclick=()=>{selKind=b.dataset.k;renderGov()});
- let h='';
- if(!isIf){
-  h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${x.uf.length}</div><div class="note">universidades federais criadas</div></div>`;
-  h+=x.uf.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="ih"><span class="sg">${i[0]}</span><span class="tag" style="color:${tagCor(i[2])};border-color:${tagCor(i[2])}">${i[2]}</span></div><div class="nm">${i[1]}</div></div>`).join('')+'</div>';
-  if(!x.uf.length)h+=`<div class="empty">${x.ufnote}</div>`;
- }else{
-  h+=ifIntro();
-  h+=`<div class="grid"><div class="card big" style="--c:${x.c};border-color:${x.c}"><div class="k">${x.n} · ${x.p}</div><div class="num" style="color:${x.c}">${IFN[x.id]}</div><div class="note">institutos federais criados</div></div>`;
-  h+=x.ifs.map(i=>`<div class="card inst" style="--c:${x.c}"><div class="n">${i[0]}</div><div class="note">${i[1]}</div><span class="tag" style="margin-top:10px;color:${tagCor(i[2])};border-color:${tagCor(i[2])}">${i[2]}</span></div>`).join('')+'</div>';
-  if(!x.ifs.length)h+=`<div class="empty">${x.ifnote}</div>`;
-  else if(x.ifnote)h+=`<p class="src">${x.ifnote}</p>`;
- }
- document.getElementById('govout').innerHTML=h;
- document.getElementById('govnote').innerHTML=(x.note?x.note+'<br>':'')+'Fontes: '+x.src.map(s=>L(s[1],s[0])).join(' · ');
+ document.getElementById('ifhist').innerHTML=ifIntro();
+ const notes=GOV.filter(x=>x.note).map(x=>x.n+': '+x.note).join('<br>');
+ const srcs=[...new Map(GOV.flatMap(x=>x.src).map(z=>[z[1],z])).values()];
+ document.getElementById('govnote').innerHTML=(notes?notes+'<br>':'')+'Fontes: '+srcs.map(z=>L(z[1],z[0])).join(' · ');
  fit();
 }
 
