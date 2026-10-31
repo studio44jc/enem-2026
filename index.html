@@ -93,7 +93,8 @@ body{background:radial-gradient(900px 520px at 6% -4%,rgba(255,59,78,.20),transp
 @keyframes flow{to{background-position:300% 0}}
 @keyframes glow{0%,100%{opacity:.55}50%{opacity:1}}
 .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid #ffffff2a;background:linear-gradient(90deg,#ff3b4e22,#2ec4ff22,#19e07a22);color:#e9e9f5}
-h1{font-size:clamp(24px,5.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.12;width:fit-content;max-width:100%;background:linear-gradient(90deg,#a30000 0%,#d62828 30%,#f4a6a6 65%,#fffafa 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(200,0,0,.45)) drop-shadow(0 2px 18px rgba(255,250,250,.15))}
+h1{font-size:min(44px,calc((100vw - 32px)/28));white-space:nowrap;font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.12;width:fit-content;max-width:100%;background:linear-gradient(90deg,#d7141a 0%,#ff7b7f 25%,#ffffff 50%,#ff7b7f 75%,#d7141a 100%);background-size:200% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:ptflow 5s linear infinite;filter:drop-shadow(0 0 14px rgba(215,20,26,.55)) drop-shadow(0 2px 18px rgba(255,255,255,.15))}
+@keyframes ptflow{from{background-position:200% 0}to{background-position:0 0}}
 h1 span{background:none;color:inherit;-webkit-text-fill-color:inherit;animation:none}
 header::after{content:"";display:block;height:4px;width:min(260px,60%);margin-top:18px;border-radius:99px;background:linear-gradient(90deg,#ff3b4e,#ffb020,#19e07a,#2ec4ff,#b86bff);background-size:200% auto;animation:flow 6s linear infinite,glow 3s ease-in-out infinite}
 .card{--c:var(--cy);background:linear-gradient(150deg,color-mix(in srgb,var(--c) 26%,#0c0c13) 0%,#0c0c13 68%);border-color:color-mix(in srgb,var(--c) 55%,#23232f);box-shadow:0 10px 34px -20px var(--c);container-type:normal}
@@ -154,6 +155,7 @@ h3{color:#ffd166}
 @media(max-width:360px){.grid,.grid.w2{grid-template-columns:minmax(0,1fr)}.gov .pair{gap:14px}.seg{display:flex;width:100%}.seg button{flex:1 1 100%}}
 @page{size:A4;margin:12mm}
 @media print{
+h1{font-size:15pt!important}
 #lst{display:none!important}
 .hv{border:0}
 :root{--bg:#fff;--card:#fff;--card2:#f3f3f6;--line:#c9c9d3;--fg:#111;--mut:#444;--cy:#0a6a99;color-scheme:light}
@@ -504,7 +506,8 @@ function renderEnem(){
 /* ---------- referências e abas ---------- */
 document.getElementById('refs').innerHTML='<b style="color:var(--fg)">Referências gerais.</b> '+[['INEP, Histórico do Enem','https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/historico'],['Portaria INEP 109/2009','https://download.inep.gov.br/educacao_basica/enem/legislacao/2009/portaria_enem_2009_1.pdf'],['Lei 11.892/2008 (Institutos Federais)','https://www2.camara.leg.br/legin/fed/lei/2008/lei-11892-29-dezembro-2008-585085-normaatualizada-pl.html'],['MEC, Expansão da Rede Federal','https://redefederal.mec.gov.br/expansao-da-rede-federal']].map(a=>L(a[1],a[0])).join(' · ')+'. Consultadas em 31/10/2026.';
 const panes=['governos','prouni','fies','enem'];
-function fit(){document.querySelectorAll('.num:not(.txt),.sumc .tot,.sumc .pair2 b').forEach(e=>{e.style.fontSize='';if(!e.offsetParent)return;let fs=parseFloat(getComputedStyle(e).fontSize);while(e.scrollWidth>e.clientWidth+1&&fs>11){fs-=1;e.style.fontSize=fs+'px'}})}
+function fitTitle(){const h=document.querySelector('h1');h.style.fontSize='';let fs=parseFloat(getComputedStyle(h).fontSize);const mw=h.parentElement.clientWidth;while(h.scrollWidth>mw+1&&fs>6){fs-=.5;h.style.fontSize=fs+'px'}}
+function fit(){fitTitle();document.querySelectorAll('.num:not(.txt),.sumc .tot,.sumc .pair2 b').forEach(e=>{e.style.fontSize='';if(!e.offsetParent)return;let fs=parseFloat(getComputedStyle(e).fontSize);while(e.scrollWidth>e.clientWidth+1&&fs>11){fs-=1;e.style.fontSize=fs+'px'}})}
 addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 function show(t){if(!panes.includes(t))t='governos';panes.forEach(p=>document.getElementById('p-'+p).classList.toggle('on',p==t));document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t==t));history.replaceState(null,'','#'+t);fit()}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>show(b.dataset.t));
